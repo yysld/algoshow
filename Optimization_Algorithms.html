@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机器学习优化算法动画演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 1200px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .canvas-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        canvas {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: #f9f9f9;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f5f5f5;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="range"] {
+            width: 150px;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .info-panel {
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-panel h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            color: #333;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .explanation {
+            background: #fff9e6;
+            border-left: 4px solid #ffd700;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .explanation h4 {
+            color: #e6a700;
+            margin-bottom: 10px;
+        }
+
+        .formula {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 机器学习优化算法动画演示</h1>
+        <p class="subtitle">Machine Learning Optimization Algorithms Visualization</p>
+
+        <div class="info-panel">
+            <h3>📚 优化算法可视化</h3>
+            <p>机器学习中的优化算法用于寻找损失函数的最小值。本演示展示了6种主流优化算法的工作原理和收敛特性。</p>
+            <div class="formula">
+                通用更新公式: θ<sub>new</sub> = θ<sub>old</sub> - [更新规则]
+            </div>
+            <p style="margin-top: 10px;"><strong>目标函数：</strong>f(x) = (x-1)² + 2，最优解在 x = 1 处</p>
+            <p style="margin-top: 5px;"><strong>算法类型：</strong></p>
+            <ul style="margin-left: 20px; margin-top: 5px; line-height: 1.6;">
+                <li><strong>基于梯度：</strong>SGD、Momentum、NAG - 改进梯度下降的方向和速度</li>
+                <li><strong>自适应学习率：</strong>AdaGrad、RMSprop、Adam - 自动调整每个参数的学习率</li>
+            </ul>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="functionCanvas" width="500" height="400"></canvas>
+            <canvas id="contourCanvas" width="500" height="400"></canvas>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>优化算法:</label>
+                <select id="optimizer" style="padding: 5px 10px; border-radius: 4px; border: 1px solid #ddd; font-size: 14px;">
+                    <option value="sgd">SGD (标准梯度下降)</option>
+                    <option value="momentum">Momentum (动量法)</option>
+                    <option value="nag">NAG (Nesterov加速)</option>
+                    <option value="adagrad">AdaGrad (自适应学习率)</option>
+                    <option value="rmsprop">RMSprop</option>
+                    <option value="adam">Adam</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>学习率 α:</label>
+                <input type="range" id="learningRate" min="0.001" max="1.5" step="0.001" value="0.1">
+                <span id="lrValue">0.1</span>
+            </div>
+            <div class="control-group">
+                <label>起始 X:</label>
+                <input type="number" id="startX" value="-3.5" step="0.5" min="-5" max="5">
+            </div>
+            <div class="control-group">
+                <label>最大迭代:</label>
+                <input type="number" id="maxIter" value="100" min="10" max="1000">
+            </div>
+        </div>
+        
+        <div class="controls" id="hyperparams" style="display: none;">
+            <div class="control-group">
+                <label id="param1Label">参数1:</label>
+                <input type="range" id="param1" min="0" max="1" step="0.01" value="0.9">
+                <span id="param1Value">0.9</span>
+            </div>
+            <div class="control-group" id="param2Group" style="display: none;">
+                <label id="param2Label">参数2:</label>
+                <input type="range" id="param2" min="0" max="1" step="0.01" value="0.999">
+                <span id="param2Value">0.999</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button onclick="startAnimation()">▶ 开始动画</button>
+            <button onclick="pauseAnimation()">⏸ 暂停</button>
+            <button onclick="resetAnimation()">🔄 重置</button>
+            <button onclick="stepAnimation()">⏭ 单步执行</button>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-label">当前优化器</div>
+                <div class="stat-value" id="currentOptimizer" style="font-size: 1.2em;">SGD</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">当前迭代次数</div>
+                <div class="stat-value" id="iteration">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">当前 X 值</div>
+                <div class="stat-value" id="currentX">-3.50</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">当前函数值</div>
+                <div class="stat-value" id="currentY">0.00</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">当前梯度</div>
+                <div class="stat-value" id="currentGrad">0.00</div>
+            </div>
+        </div>
+
+        <div class="explanation" id="algorithmExplanation">
+            <!-- 这里的内容将根据选择的算法动态更新 -->
+        </div>
+    </div>
+
+    <script>
+        const canvas1 = document.getElementById('functionCanvas');
+        const ctx1 = canvas1.getContext('2d');
+        const canvas2 = document.getElementById('contourCanvas');
+        const ctx2 = canvas2.getContext('2d');
+
+        let animationId = null;
+        let isPaused = false;
+        let currentIteration = 0;
+        let path = [];
+        let currentX, currentY;
+        
+        // 优化器状态变量
+        let velocity = 0;  // 用于Momentum和NAG
+        let cache = 0;     // 用于AdaGrad和RMSprop
+        let m = 0;         // 用于Adam (一阶矩估计)
+        let v = 0;         // 用于Adam (二阶矩估计)
+        let epsilon = 1e-8; // 防止除零
+        
+        // 为不同的优化器生成说明内容
+        function updateExplanation(optimizer) {
+            const explanationDiv = document.getElementById('algorithmExplanation');
+            
+            const explanations = {
+                'sgd': `
+                    <h4>💡 SGD - 标准梯度下降算法详解</h4>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">📐 数学公式</h5>
+                        <div class="formula">θ<sub>new</sub> = θ<sub>old</sub> - α × ∇f(θ<sub>old</sub>)</div>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">📝 算法原理</h5>
+                        <p><strong>核心思想：</strong>沿着函数梯度（最陡下降方向）的反方向移动，逐步找到函数的最小值点。</p>
+                        <p style="margin-top: 10px;"><strong>特点：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>最简单、最基础的优化算法</li>
+                            <li>直接使用当前点的梯度信息</li>
+                            <li>不考虑历史梯度信息</li>
+                            <li>对学习率非常敏感</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">🎛️ 参数说明</h5>
+                        <p><strong>学习率 α (Learning Rate)：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.8;">
+                            <li><strong>α < 0.1：</strong>收敛非常稳定，但速度极慢，需要更多迭代次数</li>
+                            <li><strong>0.1 ≤ α < 0.5：</strong>✅ 推荐范围！稳定且速度适中</li>
+                            <li><strong>0.5 ≤ α < 1.0：</strong>可能出现轻微震荡，但仍能收敛</li>
+                            <li><strong>α ≈ 1.0：</strong>⚠️ 临界状态！在最优解附近来回震荡</li>
+                            <li><strong>α > 1.0：</strong>❌ 发散！每次更新都会越过最优解，震荡幅度越来越大</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>💡 为什么会发散？</strong>当学习率过大时，参数更新的步长超过了从当前点到最优解的距离，导致"越过"最优解。由于函数是对称的抛物线，下一次更新又会越过回来，且幅度更大，形成发散。</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 8px;">
+                        <h5 style="color: #1976d2; margin-bottom: 10px;">🔬 推荐实验</h5>
+                        <p><strong>实验1：观察学习率的影响</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>起始X = -3.5，α = 0.1 → 观察稳定收敛</li>
+                            <li>起始X = -3.5，α = 0.5 → 观察轻微震荡</li>
+                            <li>起始X = -3.5，α = 1.2 → 观察发散现象！</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>实验2：从不同起始点</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>α = 0.1，分别从 X = -4, -2, 0, 3, 5 开始</li>
+                            <li>观察：距离最优解越远，需要的迭代次数越多</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>实验3：找到临界学习率</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>逐步增加学习率：0.8, 0.9, 0.95, 1.0, 1.05...</li>
+                            <li>找到从收敛到发散的临界点（约为 α ≈ 1.0）</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: #fff3e0; border-left: 4px solid #ff9800; border-radius: 8px;">
+                        <h5 style="color: #f57c00; margin-bottom: 10px;">⚖️ 优缺点分析</h5>
+                        <p><strong>✅ 优点：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>简单易懂，实现容易</li>
+                            <li>计算开销小，每次迭代只需计算当前梯度</li>
+                            <li>理论基础扎实</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>❌ 缺点：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>对学习率极其敏感，需要精心调参</li>
+                            <li>收敛速度慢，尤其在接近最优解时</li>
+                            <li>容易在鞍点或局部最小值附近震荡</li>
+                            <li>所有参数使用相同的学习率（不够灵活）</li>
+                        </ul>
+                    </div>
+                `,
+                
+                'momentum': `
+                    <h4>💡 Momentum - 动量优化算法详解</h4>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">📐 数学公式</h5>
+                        <div class="formula">v<sub>t</sub> = β × v<sub>t-1</sub> + ∇f(θ<sub>t</sub>)<br>θ<sub>t+1</sub> = θ<sub>t</sub> - α × v<sub>t</sub></div>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">📝 算法原理</h5>
+                        <p><strong>核心思想：</strong>借鉴物理中的"动量"概念。就像一个球滚下山坡，会积累速度，不会因为小的坡度变化而轻易改变方向。</p>
+                        <p style="margin-top: 10px;"><strong>工作机制：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>维护一个"速度"变量v，累积历史梯度方向</li>
+                            <li>梯度方向一致时，动量会累积，加速收敛</li>
+                            <li>梯度方向频繁变化时，动量会抵消，减少震荡</li>
+                            <li>可以"冲出"局部最小值和鞍点</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">🎛️ 参数说明</h5>
+                        <p><strong>1. 学习率 α (Learning Rate)：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>推荐范围：0.01 ~ 0.3</strong>（比SGD可以设置更大）</li>
+                            <li>α = 0.01：稳定但较慢</li>
+                            <li>α = 0.1：✅ 推荐！平衡速度和稳定性</li>
+                            <li>α = 0.3：快速但可能过冲</li>
+                            <li>α > 0.5：容易发散</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>2. 动量系数 β (Momentum Coefficient)：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>β = 0：</strong>退化为标准SGD</li>
+                            <li><strong>β = 0.5：</strong>轻微动量效果</li>
+                            <li><strong>β = 0.9：</strong>✅ 推荐！标准配置，效果显著</li>
+                            <li><strong>β = 0.95：</strong>强动量，加速明显但可能过冲</li>
+                            <li><strong>β = 0.99：</strong>极强动量，容易冲过最优解</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>💡 β的物理意义：</strong>表示保留多少历史动量。β=0.9意味着每次保留90%的旧速度，加上10%的新梯度。</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 8px;">
+                        <h5 style="color: #1976d2; margin-bottom: 10px;">🔬 推荐实验</h5>
+                        <p><strong>实验1：观察动量效果</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>α = 0.1，β = 0（SGD）→ 记录收敛步数</li>
+                            <li>α = 0.1，β = 0.9（Momentum）→ 对比步数，应该更快！</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>实验2：调节β观察动量强度</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>固定α = 0.1，起始X = -4</li>
+                            <li>依次测试：β = 0.5, 0.7, 0.9, 0.95, 0.99</li>
+                            <li>观察：β越大，速度越快，但可能出现过冲</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>实验3：动量的鲁棒性</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>设置较大学习率：α = 0.3, β = 0.9</li>
+                            <li>对比SGD（α = 0.3）</li>
+                            <li>观察：Momentum在大学习率下更稳定</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: #fff3e0; border-left: 4px solid #ff9800; border-radius: 8px;">
+                        <h5 style="color: #f57c00; margin-bottom: 10px;">⚖️ 优缺点分析</h5>
+                        <p><strong>✅ 优点：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>收敛速度比SGD快2-10倍</li>
+                            <li>减少震荡，路径更平滑</li>
+                            <li>对学习率不那么敏感</li>
+                            <li>可以逃离局部最小值和鞍点</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>❌ 缺点：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>可能在最优解附近来回震荡</li>
+                            <li>需要额外的超参数β</li>
+                            <li>动量过大时可能冲过最优解</li>
+                        </ul>
+                    </div>
+                `,
+                
+                'nag': `
+                    <h4>💡 NAG - Nesterov加速梯度详解</h4>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">📐 数学公式</h5>
+                        <div class="formula">θ̃ = θ<sub>t</sub> - γ × v<sub>t-1</sub><br>v<sub>t</sub> = γ × v<sub>t-1</sub> + ∇f(θ̃)<br>θ<sub>t+1</sub> = θ<sub>t</sub> - α × v<sub>t</sub></div>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">📝 算法原理</h5>
+                        <p><strong>核心思想：</strong>Nesterov加速是Momentum的改进版，更加"聪明"。它先预测下一步会到哪里，然后在预测位置计算梯度。</p>
+                        <p style="margin-top: 10px;"><strong>与Momentum的区别：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>Momentum：</strong>在当前位置计算梯度，然后加上动量移动</li>
+                            <li><strong>NAG：</strong>先按动量"预看"下一步位置，在那里计算梯度</li>
+                            <li><strong>优势：</strong>提前"看到"未来，可以更早地刹车，避免冲过头</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>💡 形象比喻：</strong>Momentum像一个闭眼跑步的人，NAG像一个睁眼看前方的人，能提前预判并调整。</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">🎛️ 参数说明</h5>
+                        <p><strong>1. 学习率 α (Learning Rate)：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>推荐范围：0.01 ~ 0.5</strong></li>
+                            <li>α = 0.1：✅ 推荐！稳定且高效</li>
+                            <li>α = 0.3：快速，NAG的提前预判使其更稳定</li>
+                            <li>可以比Momentum设置更大的学习率</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>2. 动量系数 γ (Momentum Coefficient)：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>γ = 0.9：</strong>✅ 标准配置</li>
+                            <li><strong>γ = 0.95：</strong>更强的预测效果</li>
+                            <li><strong>γ = 0.99：</strong>极强预测，但可能过于保守</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>💡 γ的作用：</strong>γ控制"往前看"的距离。γ越大，预测越远，能更早地调整方向。</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 8px;">
+                        <h5 style="color: #1976d2; margin-bottom: 10px;">🔬 推荐实验</h5>
+                        <p><strong>实验1：对比Momentum和NAG</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>固定参数：α = 0.2, β/γ = 0.9, 起始X = -4</li>
+                            <li>分别运行Momentum和NAG</li>
+                            <li>观察：NAG通常能更快收敛，路径更直接</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>实验2：测试高学习率下的稳定性</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>α = 0.4，分别测试Momentum和NAG</li>
+                            <li>观察：NAG在大学习率下更稳定，更少过冲</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>实验3：调节γ观察预测距离</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>固定α = 0.1，依次测试：γ = 0.5, 0.7, 0.9, 0.95</li>
+                            <li>观察：γ越大，"刹车"越早，越不容易过冲</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: #fff3e0; border-left: 4px solid #ff9800; border-radius: 8px;">
+                        <h5 style="color: #f57c00; margin-bottom: 10px;">⚖️ 优缺点分析</h5>
+                        <p><strong>✅ 优点：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>比标准Momentum更快、更稳定</li>
+                            <li>减少过冲现象</li>
+                            <li>对大学习率有更好的鲁棒性</li>
+                            <li>在凸优化问题上有理论保证</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>❌ 缺点：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>实现稍微复杂一点</li>
+                            <li>每次迭代需要计算两次梯度（预测位置和实际位置）</li>
+                            <li>在某些非凸问题上优势不明显</li>
+                        </ul>
+                    </div>
+                `,
+                
+                'adagrad': `
+                    <h4>💡 AdaGrad - 自适应梯度算法详解</h4>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">📐 数学公式</h5>
+                        <div class="formula">G<sub>t</sub> = G<sub>t-1</sub> + (∇f(θ<sub>t</sub>))²<br>θ<sub>t+1</sub> = θ<sub>t</sub> - α × ∇f(θ<sub>t</sub>) / (√G<sub>t</sub> + ε)</div>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">📝 算法原理</h5>
+                        <p><strong>核心思想：</strong>不同的参数应该有不同的学习率。频繁更新的参数学习率应该小一点，很少更新的参数学习率应该大一点。</p>
+                        <p style="margin-top: 10px;"><strong>工作机制：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>累积历史梯度的平方和（G）</li>
+                            <li>用G的平方根来缩放学习率</li>
+                            <li>梯度大的参数，G增长快，实际学习率变小</li>
+                            <li>梯度小的参数，G增长慢，实际学习率相对大</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>💡 适用场景：</strong>特别适合稀疏数据（如NLP、推荐系统），能让稀疏特征得到更多更新。</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">🎛️ 参数说明</h5>
+                        <p><strong>学习率 α (Learning Rate)：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>推荐范围：0.01 ~ 0.1</strong></li>
+                            <li>⚠️ AdaGrad对初始学习率很敏感</li>
+                            <li>α = 0.01：保守，适合不确定的情况</li>
+                            <li>α = 0.05：✅ 推荐！平衡的选择</li>
+                            <li>α = 0.1：激进，可能前期更新太快</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>💡 为什么学习率要小？</strong>AdaGrad会自动调整学习率，所以初始值不需要太大。而且学习率会单调递减，初始值太大会导致后期学习率过小。</p>
+                        <p style="margin-top: 10px;"><strong>注意事项：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>G是累积的，永远在增长</li>
+                            <li>意味着学习率会单调递减</li>
+                            <li>训练后期学习率可能变得非常小</li>
+                            <li>可能导致提前停止学习</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 8px;">
+                        <h5 style="color: #1976d2; margin-bottom: 10px;">🔬 推荐实验</h5>
+                        <p><strong>实验1：观察学习率衰减</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>α = 0.1，起始X = -4，最大迭代 = 200</li>
+                            <li>观察：开始快速下降，后期越来越慢</li>
+                            <li>注意函数值变化：后期几乎不再变化</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>实验2：对比不同初始学习率</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>分别测试：α = 0.01, 0.05, 0.1, 0.2</li>
+                            <li>观察：初始学习率大的，前期快但后期可能过小</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>实验3：与SGD对比</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>SGD (α=0.05) vs AdaGrad (α=0.05)</li>
+                            <li>观察：AdaGrad前期可能更快，但后期变慢</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: #fff3e0; border-left: 4px solid #ff9800; border-radius: 8px;">
+                        <h5 style="color: #f57c00; margin-bottom: 10px;">⚖️ 优缺点分析</h5>
+                        <p><strong>✅ 优点：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>自适应调整学习率，减少手动调参</li>
+                            <li>特别适合稀疏数据</li>
+                            <li>对频繁出现的特征自动降低学习率</li>
+                            <li>理论上适合凸优化问题</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>❌ 缺点：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>致命缺陷：</strong>学习率单调递减，可能过早停止</li>
+                            <li>在深度学习中表现不佳</li>
+                            <li>需要较小的初始学习率</li>
+                            <li>不适合非凸优化（如神经网络）</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>💡 实际应用：</strong>在现代深度学习中，AdaGrad已被RMSprop和Adam取代，但在某些特定场景（如在线学习、稀疏数据）仍有应用。</p>
+                    </div>
+                `,
+                
+                'rmsprop': `
+                    <h4>💡 RMSprop - 均方根传播算法详解</h4>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">📐 数学公式</h5>
+                        <div class="formula">G<sub>t</sub> = ρ × G<sub>t-1</sub> + (1-ρ) × (∇f(θ<sub>t</sub>))²<br>θ<sub>t+1</sub> = θ<sub>t</sub> - α × ∇f(θ<sub>t</sub>) / (√G<sub>t</sub> + ε)</div>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">📝 算法原理</h5>
+                        <p><strong>核心思想：</strong>RMSprop是AdaGrad的改进版，解决了学习率单调递减的问题。使用指数移动平均（Exponential Moving Average）来平滑历史梯度。</p>
+                        <p style="margin-top: 10px;"><strong>与AdaGrad的区别：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>AdaGrad：</strong>G = 累加所有历史梯度平方 → 单调递增</li>
+                            <li><strong>RMSprop：</strong>G = 指数移动平均 → 可增可减</li>
+                            <li><strong>优势：</strong>更关注近期梯度，远古的梯度影响会衰减</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>💡 适用场景：</strong>特别适合RNN训练，也广泛用于各种深度学习任务。</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">🎛️ 参数说明</h5>
+                        <p><strong>1. 学习率 α (Learning Rate)：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>推荐范围：0.001 ~ 0.1</strong></li>
+                            <li>α = 0.001：保守，稳定但慢</li>
+                            <li>α = 0.01：✅ 标准配置！Hinton教授推荐</li>
+                            <li>α = 0.05：较快，适合大多数情况</li>
+                            <li>α = 0.1：激进，可能不稳定</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>2. 衰减率 ρ (Decay Rate)：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>ρ = 0.9：</strong>✅ 标准配置！平衡历史和当前</li>
+                            <li><strong>ρ = 0.95：</strong>更多历史信息，更平滑</li>
+                            <li><strong>ρ = 0.99：</strong>大量历史信息，类似AdaGrad</li>
+                            <li><strong>ρ = 0.5：</strong>更关注当前，响应更快</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>💡 ρ的物理意义：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>ρ = 0.9 意味着保留90%的历史，加入10%的新信息</li>
+                            <li>ρ越大，对历史梯度的"记忆"越长</li>
+                            <li>ρ越小，对当前梯度的响应越快</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 8px;">
+                        <h5 style="color: #1976d2; margin-bottom: 10px;">🔬 推荐实验</h5>
+                        <p><strong>实验1：对比AdaGrad和RMSprop</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>AdaGrad (α=0.1) vs RMSprop (α=0.1, ρ=0.9)</li>
+                            <li>起始X = -4，观察200次迭代</li>
+                            <li>观察：RMSprop后期仍能有效学习，AdaGrad停滞</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>实验2：调节ρ观察平滑效果</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>固定α = 0.05，依次测试：ρ = 0.5, 0.7, 0.9, 0.95, 0.99</li>
+                            <li>观察：ρ小时更灵活，ρ大时更稳定</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>实验3：测试不同学习率</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>固定ρ = 0.9，测试：α = 0.01, 0.05, 0.1, 0.2</li>
+                            <li>观察：RMSprop对学习率相对不敏感</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: #fff3e0; border-left: 4px solid #ff9800; border-radius: 8px;">
+                        <h5 style="color: #f57c00; margin-bottom: 10px;">⚖️ 优缺点分析</h5>
+                        <p><strong>✅ 优点：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>解决了AdaGrad学习率递减的问题</li>
+                            <li>自适应调整学习率</li>
+                            <li>在非凸优化中表现良好</li>
+                            <li>特别适合RNN和处理非平稳目标</li>
+                            <li>对学习率相对不敏感</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>❌ 缺点：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>需要调节衰减率ρ</li>
+                            <li>在某些问题上可能不如Adam</li>
+                            <li>没有动量机制</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>💡 实际应用：</strong>RMSprop在深度学习中广泛使用，特别是在训练RNN时。Geoffrey Hinton在他的Coursera课程中推荐使用RMSprop。</p>
+                    </div>
+                `,
+                
+                'adam': `
+                    <h4>💡 Adam - 自适应矩估计算法详解</h4>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">📐 数学公式</h5>
+                        <div class="formula">m<sub>t</sub> = β₁ × m<sub>t-1</sub> + (1-β₁) × ∇f(θ<sub>t</sub>)<br>v<sub>t</sub> = β₂ × v<sub>t-1</sub> + (1-β₂) × (∇f(θ<sub>t</sub>))²<br>m̂<sub>t</sub> = m<sub>t</sub> / (1-β₁<sup>t</sup>), v̂<sub>t</sub> = v<sub>t</sub> / (1-β₂<sup>t</sup>)<br>θ<sub>t+1</sub> = θ<sub>t</sub> - α × m̂<sub>t</sub> / (√v̂<sub>t</sub> + ε)</div>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">📝 算法原理</h5>
+                        <p><strong>核心思想：</strong>Adam = Momentum + RMSprop，是目前最流行的优化算法！它结合了两者的优点。</p>
+                        <p style="margin-top: 10px;"><strong>工作机制：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>m（一阶矩）：</strong>类似Momentum，累积梯度的方向</li>
+                            <li><strong>v（二阶矩）：</strong>类似RMSprop，累积梯度的平方</li>
+                            <li><strong>偏差修正：</strong>在训练初期修正m和v的偏差</li>
+                            <li><strong>综合更新：</strong>既有方向（动量），又有自适应学习率</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>💡 为什么叫Adam？</strong>Adaptive Moment Estimation（自适应矩估计）的缩写。</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">🎛️ 参数说明</h5>
+                        <p><strong>1. 学习率 α (Learning Rate)：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>推荐范围：0.0001 ~ 0.01</strong></li>
+                            <li>α = 0.001：✅ 默认值！适合99%的情况</li>
+                            <li>α = 0.0001：非常保守，适合微调</li>
+                            <li>α = 0.01：较大，可能需要调整β</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>2. 一阶矩估计 β₁ (First Moment)：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>β₁ = 0.9：</strong>✅ 标准配置！控制动量的衰减</li>
+                            <li>β₁ = 0.8：更少动量，响应更快</li>
+                            <li>β₁ = 0.95：更多动量，更平滑</li>
+                            <li>推荐：大部分情况保持0.9不变</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>3. 二阶矩估计 β₂ (Second Moment)：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>β₂ = 0.999：</strong>✅ 标准配置！控制学习率调整的平滑度</li>
+                            <li>β₂ = 0.99：更少历史，学习率调整更快</li>
+                            <li>β₂ = 0.9999：更多历史，更稳定</li>
+                            <li>推荐：大部分情况保持0.999不变</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>💡 默认参数的由来：</strong>论文作者通过大量实验发现，α=0.001, β₁=0.9, β₂=0.999 在绝大多数问题上都表现良好，因此成为"万金油"配置。</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 8px;">
+                        <h5 style="color: #1976d2; margin-bottom: 10px;">🔬 推荐实验</h5>
+                        <p><strong>实验1：体验Adam的"万金油"特性</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>使用默认参数：α=0.01, β₁=0.9, β₂=0.999</li>
+                            <li>从不同起始点：X = -5, -3, 0, 3, 5</li>
+                            <li>观察：几乎都能快速稳定收敛</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>实验2：对比所有优化器</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>固定参数：α=0.1（或各自推荐值），起始X=-4</li>
+                            <li>依次测试：SGD, Momentum, NAG, AdaGrad, RMSprop, Adam</li>
+                            <li>观察：Adam通常收敛最快最稳定</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>实验3：测试β参数的影响</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>固定α=0.01，调整：β₁ = 0.5, 0.7, 0.9, 0.95</li>
+                            <li>固定α=0.01, β₁=0.9，调整：β₂ = 0.9, 0.99, 0.999, 0.9999</li>
+                            <li>观察：默认值在大多数情况下确实是最优的</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>实验4：鲁棒性测试</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>设置极端学习率：α = 0.0001, 0.001, 0.01, 0.1, 0.5</li>
+                            <li>观察：Adam在宽泛的学习率范围内都能工作</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin: 15px 0; padding: 15px; background: #fff3e0; border-left: 4px solid #ff9800; border-radius: 8px;">
+                        <h5 style="color: #f57c00; margin-bottom: 10px;">⚖️ 优缺点分析</h5>
+                        <p><strong>✅ 优点：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>效果最好：</strong>在绝大多数问题上表现优异</li>
+                            <li><strong>鲁棒性强：</strong>对超参数不敏感</li>
+                            <li><strong>调参简单：</strong>默认参数通常就很好</li>
+                            <li><strong>收敛快：</strong>结合了动量和自适应学习率</li>
+                            <li><strong>应用广泛：</strong>深度学习的首选优化器</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>❌ 缺点：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>计算开销比SGD大（需要维护两个额外状态）</li>
+                            <li>在某些特定问题上可能不如其他方法</li>
+                            <li>理论分析相对复杂</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>💡 实际应用：</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li><strong>首选：</strong>对于新问题，先用Adam + 默认参数</li>
+                            <li><strong>微调：</strong>如果效果不好，再考虑调整学习率</li>
+                            <li><strong>对比：</strong>可以试试SGD with Momentum作为对照</li>
+                            <li><strong>应用场景：</strong>CV、NLP、强化学习等几乎所有领域</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 15px; padding: 12px; background: #e8f5e9; border-left: 4px solid #4caf50; border-radius: 5px;">
+                        <strong>🌟 总结：为什么Adam这么受欢迎？</strong><br>
+                        <p style="margin-top: 8px; line-height: 1.6;">Adam是目前深度学习中最常用的优化器，原因是：</p>
+                        <ul style="margin: 8px 0 0 20px; line-height: 1.6;">
+                            <li>✅ 默认参数就很好，不需要太多调参</li>
+                            <li>✅ 在各种问题上都表现稳定</li>
+                            <li>✅ 收敛速度快，训练时间短</li>
+                            <li>✅ 对学习率的选择相对宽容</li>
+                        </ul>
+                        <p style="margin-top: 8px;"><strong>建议：</strong>如果你不确定用哪个优化器，就用Adam！</p>
+                    </div>
+                `
+            };
+            
+            explanationDiv.innerHTML = explanations[optimizer];
+        }
+
+        // 目标函数: f(x) = (x-1)^2 + 2
+        function f(x) {
+            return Math.pow(x - 1, 2) + 2;
+        }
+
+        // 梯度 (导数): f'(x) = 2(x-1)
+        function gradient(x) {
+            return 2 * (x - 1);
+        }
+
+        // 绘制2D函数图像
+        function drawFunction() {
+            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+            
+            // 调整坐标系统：y轴原点下移，缩放比例减小
+            const xScale = 50;  // x轴缩放
+            const yScale = 8;   // y轴缩放（从20减小到8）
+            const yOffset = canvas1.height - 50;  // y轴原点位置（底部往上50px）
+            
+            // 绘制坐标轴
+            ctx1.strokeStyle = '#ccc';
+            ctx1.lineWidth = 1;
+            ctx1.beginPath();
+            // x轴
+            ctx1.moveTo(0, yOffset);
+            ctx1.lineTo(canvas1.width, yOffset);
+            // y轴
+            ctx1.moveTo(canvas1.width / 2, 0);
+            ctx1.lineTo(canvas1.width / 2, canvas1.height);
+            ctx1.stroke();
+
+            // 绘制函数曲线
+            ctx1.strokeStyle = '#667eea';
+            ctx1.lineWidth = 3;
+            ctx1.beginPath();
+            
+            for (let px = 0; px < canvas1.width; px++) {
+                const x = (px - canvas1.width / 2) / xScale;
+                const y = f(x);
+                const py = yOffset - y * yScale;
+                
+                if (px === 0) {
+                    ctx1.moveTo(px, py);
+                } else {
+                    ctx1.lineTo(px, py);
+                }
+            }
+            ctx1.stroke();
+
+            // 绘制最小值点
+            const minX = 1;
+            const minY = f(minX);
+            const minPx = canvas1.width / 2 + minX * xScale;
+            const minPy = yOffset - minY * yScale;
+            
+            ctx1.fillStyle = '#00ff00';
+            ctx1.beginPath();
+            ctx1.arc(minPx, minPy, 8, 0, Math.PI * 2);
+            ctx1.fill();
+            ctx1.fillStyle = '#000';
+            ctx1.font = 'bold 14px Arial';
+            ctx1.fillText('最小值', minPx + 10, minPy);
+
+            // 绘制路径
+            if (path.length > 1) {
+                ctx1.strokeStyle = '#ff6b6b';
+                ctx1.lineWidth = 2;
+                ctx1.beginPath();
+                
+                for (let i = 0; i < path.length; i++) {
+                    const px = canvas1.width / 2 + path[i].x * xScale;
+                    const py = yOffset - path[i].y * yScale;
+                    
+                    if (i === 0) {
+                        ctx1.moveTo(px, py);
+                    } else {
+                        ctx1.lineTo(px, py);
+                    }
+                }
+                ctx1.stroke();
+
+                // 绘制路径点
+                for (let i = 0; i < path.length; i++) {
+                    const px = canvas1.width / 2 + path[i].x * xScale;
+                    const py = yOffset - path[i].y * yScale;
+                    
+                    ctx1.fillStyle = i === path.length - 1 ? '#ff0000' : '#ff6b6b';
+                    ctx1.beginPath();
+                    ctx1.arc(px, py, 5, 0, Math.PI * 2);
+                    ctx1.fill();
+                }
+            }
+
+            // 绘制当前点和切线
+            if (path.length > 0) {
+                const current = path[path.length - 1];
+                const px = canvas1.width / 2 + current.x * xScale;
+                const py = yOffset - current.y * yScale;
+                
+                // 绘制切线
+                const grad = gradient(current.x);
+                ctx1.strokeStyle = '#ffd700';
+                ctx1.lineWidth = 2;
+                ctx1.beginPath();
+                const dx = 1;
+                const x1 = current.x - dx;
+                const x2 = current.x + dx;
+                const y1 = current.y - grad * dx;
+                const y2 = current.y + grad * dx;
+                ctx1.moveTo(canvas1.width / 2 + x1 * xScale, yOffset - y1 * yScale);
+                ctx1.lineTo(canvas1.width / 2 + x2 * xScale, yOffset - y2 * yScale);
+                ctx1.stroke();
+            }
+        }
+
+        // 绘制等高线图
+        function drawContour() {
+            ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+            
+            // 绘制等高线
+            const levels = [2, 3, 5, 8, 12, 17, 23, 30];
+            
+            for (let level of levels) {
+                ctx2.strokeStyle = `rgba(102, 126, 234, ${0.3})`;
+                ctx2.lineWidth = 1;
+                ctx2.beginPath();
+                
+                let points = [];
+                for (let angle = 0; angle < Math.PI * 2; angle += 0.1) {
+                    const r = Math.sqrt(level - 2);
+                    const x = 1 + r * Math.cos(angle);
+                    const y = r * Math.sin(angle);
+                    const px = canvas2.width / 2 + x * 50;
+                    const py = canvas2.height / 2 - y * 50;
+                    points.push({px, py});
+                }
+                
+                for (let i = 0; i < points.length; i++) {
+                    if (i === 0) {
+                        ctx2.moveTo(points[i].px, points[i].py);
+                    } else {
+                        ctx2.lineTo(points[i].px, points[i].py);
+                    }
+                }
+                ctx2.closePath();
+                ctx2.stroke();
+            }
+
+            // 绘制坐标轴
+            ctx2.strokeStyle = '#ccc';
+            ctx2.lineWidth = 1;
+            ctx2.beginPath();
+            ctx2.moveTo(0, canvas2.height / 2);
+            ctx2.lineTo(canvas2.width, canvas2.height / 2);
+            ctx2.moveTo(canvas2.width / 2, 0);
+            ctx2.lineTo(canvas2.width / 2, canvas2.height);
+            ctx2.stroke();
+
+            // 绘制最小值点
+            const minPx = canvas2.width / 2 + 1 * 50;
+            const minPy = canvas2.height / 2;
+            ctx2.fillStyle = '#00ff00';
+            ctx2.beginPath();
+            ctx2.arc(minPx, minPy, 8, 0, Math.PI * 2);
+            ctx2.fill();
+
+            // 绘制路径
+            if (path.length > 1) {
+                ctx2.strokeStyle = '#ff6b6b';
+                ctx2.lineWidth = 2;
+                ctx2.beginPath();
+                
+                for (let i = 0; i < path.length; i++) {
+                    const px = canvas2.width / 2 + path[i].x * 50;
+                    const py = canvas2.height / 2;
+                    
+                    if (i === 0) {
+                        ctx2.moveTo(px, py);
+                    } else {
+                        ctx2.lineTo(px, py);
+                    }
+                    
+                    // 绘制箭头
+                    if (i > 0) {
+                        const prevPx = canvas2.width / 2 + path[i-1].x * 50;
+                        const angle = Math.atan2(0, px - prevPx);
+                        const arrowLength = 10;
+                        ctx2.save();
+                        ctx2.translate(px, py);
+                        ctx2.rotate(angle);
+                        ctx2.beginPath();
+                        ctx2.moveTo(0, 0);
+                        ctx2.lineTo(-arrowLength, -5);
+                        ctx2.lineTo(-arrowLength, 5);
+                        ctx2.closePath();
+                        ctx2.fillStyle = '#ff6b6b';
+                        ctx2.fill();
+                        ctx2.restore();
+                    }
+                }
+                ctx2.stroke();
+
+                // 绘制当前点
+                const current = path[path.length - 1];
+                const px = canvas2.width / 2 + current.x * 50;
+                const py = canvas2.height / 2;
+                ctx2.fillStyle = '#ff0000';
+                ctx2.beginPath();
+                ctx2.arc(px, py, 6, 0, Math.PI * 2);
+                ctx2.fill();
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('iteration').textContent = currentIteration;
+            document.getElementById('currentX').textContent = currentX.toFixed(4);
+            document.getElementById('currentY').textContent = currentY.toFixed(4);
+            document.getElementById('currentGrad').textContent = gradient(currentX).toFixed(4);
+        }
+
+        function step() {
+            const learningRate = parseFloat(document.getElementById('learningRate').value);
+            const maxIter = parseInt(document.getElementById('maxIter').value);
+            const optimizer = document.getElementById('optimizer').value;
+            
+            // 检查是否收敛
+            if (currentIteration >= maxIter || Math.abs(gradient(currentX)) < 0.001) {
+                pauseAnimation();
+                return;
+            }
+
+            // 检查是否发散（x值超出合理范围）
+            if (Math.abs(currentX) > 100) {
+                pauseAnimation();
+                alert('⚠️ 检测到发散！学习率过大导致参数不断震荡并远离最优解。\n建议：减小学习率重新开始。');
+                return;
+            }
+
+            const grad = gradient(currentX);
+            let newX = currentX;
+            
+            // 根据不同的优化算法更新参数
+            switch(optimizer) {
+                case 'sgd':
+                    // 标准梯度下降: x = x - α * ∇f(x)
+                    newX = currentX - learningRate * grad;
+                    break;
+                    
+                case 'momentum':
+                    // 动量法: v = β * v + ∇f(x), x = x - α * v
+                    const beta = parseFloat(document.getElementById('param1').value);
+                    velocity = beta * velocity + grad;
+                    newX = currentX - learningRate * velocity;
+                    break;
+                    
+                case 'nag':
+                    // Nesterov加速梯度: 先预测下一步位置，然后在那里计算梯度
+                    const gamma = parseFloat(document.getElementById('param1').value);
+                    const lookahead = currentX - gamma * velocity;
+                    const gradLookahead = gradient(lookahead);
+                    velocity = gamma * velocity + gradLookahead;
+                    newX = currentX - learningRate * velocity;
+                    break;
+                    
+                case 'adagrad':
+                    // AdaGrad: 累积历史梯度的平方，自适应调整学习率
+                    cache = cache + grad * grad;
+                    newX = currentX - learningRate * grad / (Math.sqrt(cache) + epsilon);
+                    break;
+                    
+                case 'rmsprop':
+                    // RMSprop: 使用指数移动平均来平滑历史梯度
+                    const decay = parseFloat(document.getElementById('param1').value);
+                    cache = decay * cache + (1 - decay) * grad * grad;
+                    newX = currentX - learningRate * grad / (Math.sqrt(cache) + epsilon);
+                    break;
+                    
+                case 'adam':
+                    // Adam: 结合动量和RMSprop
+                    const beta1 = parseFloat(document.getElementById('param1').value);
+                    const beta2 = parseFloat(document.getElementById('param2').value);
+                    const t = currentIteration + 1;
+                    
+                    m = beta1 * m + (1 - beta1) * grad;
+                    v = beta2 * v + (1 - beta2) * grad * grad;
+                    
+                    // 偏差修正
+                    const mHat = m / (1 - Math.pow(beta1, t));
+                    const vHat = v / (1 - Math.pow(beta2, t));
+                    
+                    newX = currentX - learningRate * mHat / (Math.sqrt(vHat) + epsilon);
+                    break;
+            }
+            
+            currentX = newX;
+            currentY = f(currentX);
+            
+            path.push({x: currentX, y: currentY});
+            currentIteration++;
+            
+            updateStats();
+            drawFunction();
+            drawContour();
+        }
+
+        function animate() {
+            if (!isPaused) {
+                step();
+                animationId = setTimeout(animate, 200);
+            }
+        }
+
+        function startAnimation() {
+            if (path.length === 0) {
+                resetAnimation();
+            }
+            isPaused = false;
+            animate();
+        }
+
+        function pauseAnimation() {
+            isPaused = true;
+            if (animationId) {
+                clearTimeout(animationId);
+            }
+        }
+
+        function resetAnimation() {
+            pauseAnimation();
+            currentIteration = 0;
+            currentX = parseFloat(document.getElementById('startX').value);
+            currentY = f(currentX);
+            path = [{x: currentX, y: currentY}];
+            
+            // 重置所有优化器状态
+            velocity = 0;
+            cache = 0;
+            m = 0;
+            v = 0;
+            
+            updateStats();
+            drawFunction();
+            drawContour();
+        }
+
+        function stepAnimation() {
+            pauseAnimation();
+            if (path.length === 0) {
+                resetAnimation();
+            }
+            step();
+        }
+
+        // 学习率滑块更新
+        document.getElementById('learningRate').addEventListener('input', function(e) {
+            document.getElementById('lrValue').textContent = e.target.value;
+        });
+        
+        // 参数1滑块更新
+        document.getElementById('param1').addEventListener('input', function(e) {
+            document.getElementById('param1Value').textContent = e.target.value;
+        });
+        
+        // 参数2滑块更新
+        document.getElementById('param2').addEventListener('input', function(e) {
+            document.getElementById('param2Value').textContent = e.target.value;
+        });
+        
+        // 优化器选择器
+        document.getElementById('optimizer').addEventListener('change', function(e) {
+            const optimizer = e.target.value;
+            const hyperparams = document.getElementById('hyperparams');
+            const param1Group = document.querySelector('#hyperparams .control-group:first-child');
+            const param2Group = document.getElementById('param2Group');
+            const param1Label = document.getElementById('param1Label');
+            const param1 = document.getElementById('param1');
+            const param1Value = document.getElementById('param1Value');
+            
+            // 更新当前优化器显示
+            const optimizerNames = {
+                'sgd': 'SGD',
+                'momentum': 'Momentum',
+                'nag': 'NAG',
+                'adagrad': 'AdaGrad',
+                'rmsprop': 'RMSprop',
+                'adam': 'Adam'
+            };
+            document.getElementById('currentOptimizer').textContent = optimizerNames[optimizer];
+            
+            // 根据不同的优化器显示不同的超参数
+            switch(optimizer) {
+                case 'sgd':
+                    hyperparams.style.display = 'none';
+                    break;
+                    
+                case 'momentum':
+                    hyperparams.style.display = 'flex';
+                    param2Group.style.display = 'none';
+                    param1Label.textContent = '动量系数 β:';
+                    param1.min = '0';
+                    param1.max = '1';
+                    param1.step = '0.01';
+                    param1.value = '0.9';
+                    param1Value.textContent = '0.9';
+                    break;
+                    
+                case 'nag':
+                    hyperparams.style.display = 'flex';
+                    param2Group.style.display = 'none';
+                    param1Label.textContent = '动量系数 γ:';
+                    param1.min = '0';
+                    param1.max = '1';
+                    param1.step = '0.01';
+                    param1.value = '0.9';
+                    param1Value.textContent = '0.9';
+                    break;
+                    
+                case 'adagrad':
+                    hyperparams.style.display = 'none';
+                    break;
+                    
+                case 'rmsprop':
+                    hyperparams.style.display = 'flex';
+                    param2Group.style.display = 'none';
+                    param1Label.textContent = '衰减率 ρ:';
+                    param1.min = '0';
+                    param1.max = '1';
+                    param1.step = '0.01';
+                    param1.value = '0.9';
+                    param1Value.textContent = '0.9';
+                    break;
+                    
+                case 'adam':
+                    hyperparams.style.display = 'flex';
+                    param2Group.style.display = 'flex';
+                    param1Label.textContent = '一阶矩 β₁:';
+                    document.getElementById('param2Label').textContent = '二阶矩 β₂:';
+                    param1.min = '0';
+                    param1.max = '1';
+                    param1.step = '0.001';
+                    param1.value = '0.9';
+                    param1Value.textContent = '0.9';
+                    document.getElementById('param2').min = '0';
+                    document.getElementById('param2').max = '1';
+                    document.getElementById('param2').step = '0.001';
+                    document.getElementById('param2').value = '0.999';
+                    document.getElementById('param2Value').textContent = '0.999';
+                    break;
+            }
+            
+            // 重置动画以应用新的优化器
+            resetAnimation();
+            
+            // 更新说明内容
+            updateExplanation(optimizer);
+        });
+
+        // 初始化
+        resetAnimation();
+        updateExplanation('sgd');
+    </script>
+</body>
+</html>
