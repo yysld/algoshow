@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>梯度下降法动画演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 1200px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .canvas-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        canvas {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: #f9f9f9;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f5f5f5;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="range"] {
+            width: 150px;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .info-panel {
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-panel h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            color: #333;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .explanation {
+            background: #fff9e6;
+            border-left: 4px solid #ffd700;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .explanation h4 {
+            color: #e6a700;
+            margin-bottom: 10px;
+        }
+
+        .formula {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 梯度下降法动画演示</h1>
+        <p class="subtitle">Gradient Descent Visualization</p>
+
+        <div class="info-panel">
+            <h3>📚 什么是梯度下降法？</h3>
+            <p>梯度下降法是机器学习中最基础的优化算法之一。它通过迭代的方式，沿着函数梯度（最陡下降方向）的反方向移动，逐步找到函数的最小值点。</p>
+            <div class="formula">
+                θ<sub>new</sub> = θ<sub>old</sub> - α × ∇f(θ<sub>old</sub>)
+            </div>
+            <p style="margin-top: 10px;"><strong>其中：</strong>θ 是参数，α 是学习率，∇f 是梯度</p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="functionCanvas" width="500" height="400"></canvas>
+            <canvas id="contourCanvas" width="500" height="400"></canvas>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>学习率 α:</label>
+                <input type="range" id="learningRate" min="0.001" max="1.5" step="0.001" value="0.1">
+                <span id="lrValue">0.1</span>
+            </div>
+            <div class="control-group">
+                <label>起始 X:</label>
+                <input type="number" id="startX" value="-3.5" step="0.5" min="-5" max="5">
+            </div>
+            <div class="control-group">
+                <label>最大迭代:</label>
+                <input type="number" id="maxIter" value="100" min="10" max="1000">
+            </div>
+        </div>
+
+        <div class="controls">
+            <button onclick="startAnimation()">▶ 开始动画</button>
+            <button onclick="pauseAnimation()">⏸ 暂停</button>
+            <button onclick="resetAnimation()">🔄 重置</button>
+            <button onclick="stepAnimation()">⏭ 单步执行</button>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-label">当前迭代次数</div>
+                <div class="stat-value" id="iteration">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">当前 X 值</div>
+                <div class="stat-value" id="currentX">-3.50</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">当前函数值</div>
+                <div class="stat-value" id="currentY">0.00</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">当前梯度</div>
+                <div class="stat-value" id="currentGrad">0.00</div>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h4>💡 算法步骤说明</h4>
+            <ol style="margin-left: 20px; line-height: 1.8;">
+                <li><strong>初始化：</strong>从一个随机点开始（红点）</li>
+                <li><strong>计算梯度：</strong>在当前点计算函数的导数（斜率）</li>
+                <li><strong>更新参数：</strong>沿着梯度的反方向移动一小步（学习率控制步长）</li>
+                <li><strong>重复迭代：</strong>不断重复步骤2-3，直到收敛到最小值（绿点）</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>💡 学习率的影响：</strong></p>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li><strong>α < 0.2：</strong>收敛稳定但速度较慢</li>
+                <li><strong>0.2 ≤ α < 0.8：</strong>可能出现轻微震荡，但能收敛</li>
+                <li><strong>α ≈ 1.0：</strong>临界状态，在最优解附近来回震荡</li>
+                <li><strong>α > 1.0：</strong>⚠️ 发散！每次迭代都会越过最优解，震荡幅度越来越大</li>
+            </ul>
+            <p style="margin-top: 10px;"><strong>🔬 实验建议：</strong>尝试设置学习率为 1.2 或更大，观察震荡发散现象！</p>
+        </div>
+    </div>
+
+    <script>
+        const canvas1 = document.getElementById('functionCanvas');
+        const ctx1 = canvas1.getContext('2d');
+        const canvas2 = document.getElementById('contourCanvas');
+        const ctx2 = canvas2.getContext('2d');
+
+        let animationId = null;
+        let isPaused = false;
+        let currentIteration = 0;
+        let path = [];
+        let currentX, currentY;
+
+        // 目标函数: f(x) = (x-1)^2 + 2
+        function f(x) {
+            return Math.pow(x - 1, 2) + 2;
+        }
+
+        // 梯度 (导数): f'(x) = 2(x-1)
+        function gradient(x) {
+            return 2 * (x - 1);
+        }
+
+        // 绘制2D函数图像
+        function drawFunction() {
+            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+            
+            // 调整坐标系统：y轴原点下移，缩放比例减小
+            const xScale = 50;  // x轴缩放
+            const yScale = 8;   // y轴缩放（从20减小到8）
+            const yOffset = canvas1.height - 50;  // y轴原点位置（底部往上50px）
+            
+            // 绘制坐标轴
+            ctx1.strokeStyle = '#ccc';
+            ctx1.lineWidth = 1;
+            ctx1.beginPath();
+            // x轴
+            ctx1.moveTo(0, yOffset);
+            ctx1.lineTo(canvas1.width, yOffset);
+            // y轴
+            ctx1.moveTo(canvas1.width / 2, 0);
+            ctx1.lineTo(canvas1.width / 2, canvas1.height);
+            ctx1.stroke();
+
+            // 绘制函数曲线
+            ctx1.strokeStyle = '#667eea';
+            ctx1.lineWidth = 3;
+            ctx1.beginPath();
+            
+            for (let px = 0; px < canvas1.width; px++) {
+                const x = (px - canvas1.width / 2) / xScale;
+                const y = f(x);
+                const py = yOffset - y * yScale;
+                
+                if (px === 0) {
+                    ctx1.moveTo(px, py);
+                } else {
+                    ctx1.lineTo(px, py);
+                }
+            }
+            ctx1.stroke();
+
+            // 绘制最小值点
+            const minX = 1;
+            const minY = f(minX);
+            const minPx = canvas1.width / 2 + minX * xScale;
+            const minPy = yOffset - minY * yScale;
+            
+            ctx1.fillStyle = '#00ff00';
+            ctx1.beginPath();
+            ctx1.arc(minPx, minPy, 8, 0, Math.PI * 2);
+            ctx1.fill();
+            ctx1.fillStyle = '#000';
+            ctx1.font = 'bold 14px Arial';
+            ctx1.fillText('最小值', minPx + 10, minPy);
+
+            // 绘制路径
+            if (path.length > 1) {
+                ctx1.strokeStyle = '#ff6b6b';
+                ctx1.lineWidth = 2;
+                ctx1.beginPath();
+                
+                for (let i = 0; i < path.length; i++) {
+                    const px = canvas1.width / 2 + path[i].x * xScale;
+                    const py = yOffset - path[i].y * yScale;
+                    
+                    if (i === 0) {
+                        ctx1.moveTo(px, py);
+                    } else {
+                        ctx1.lineTo(px, py);
+                    }
+                }
+                ctx1.stroke();
+
+                // 绘制路径点
+                for (let i = 0; i < path.length; i++) {
+                    const px = canvas1.width / 2 + path[i].x * xScale;
+                    const py = yOffset - path[i].y * yScale;
+                    
+                    ctx1.fillStyle = i === path.length - 1 ? '#ff0000' : '#ff6b6b';
+                    ctx1.beginPath();
+                    ctx1.arc(px, py, 5, 0, Math.PI * 2);
+                    ctx1.fill();
+                }
+            }
+
+            // 绘制当前点和切线
+            if (path.length > 0) {
+                const current = path[path.length - 1];
+                const px = canvas1.width / 2 + current.x * xScale;
+                const py = yOffset - current.y * yScale;
+                
+                // 绘制切线
+                const grad = gradient(current.x);
+                ctx1.strokeStyle = '#ffd700';
+                ctx1.lineWidth = 2;
+                ctx1.beginPath();
+                const dx = 1;
+                const x1 = current.x - dx;
+                const x2 = current.x + dx;
+                const y1 = current.y - grad * dx;
+                const y2 = current.y + grad * dx;
+                ctx1.moveTo(canvas1.width / 2 + x1 * xScale, yOffset - y1 * yScale);
+                ctx1.lineTo(canvas1.width / 2 + x2 * xScale, yOffset - y2 * yScale);
+                ctx1.stroke();
+            }
+        }
+
+        // 绘制等高线图
+        function drawContour() {
+            ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+            
+            // 绘制等高线
+            const levels = [2, 3, 5, 8, 12, 17, 23, 30];
+            
+            for (let level of levels) {
+                ctx2.strokeStyle = `rgba(102, 126, 234, ${0.3})`;
+                ctx2.lineWidth = 1;
+                ctx2.beginPath();
+                
+                let points = [];
+                for (let angle = 0; angle < Math.PI * 2; angle += 0.1) {
+                    const r = Math.sqrt(level - 2);
+                    const x = 1 + r * Math.cos(angle);
+                    const y = r * Math.sin(angle);
+                    const px = canvas2.width / 2 + x * 50;
+                    const py = canvas2.height / 2 - y * 50;
+                    points.push({px, py});
+                }
+                
+                for (let i = 0; i < points.length; i++) {
+                    if (i === 0) {
+                        ctx2.moveTo(points[i].px, points[i].py);
+                    } else {
+                        ctx2.lineTo(points[i].px, points[i].py);
+                    }
+                }
+                ctx2.closePath();
+                ctx2.stroke();
+            }
+
+            // 绘制坐标轴
+            ctx2.strokeStyle = '#ccc';
+            ctx2.lineWidth = 1;
+            ctx2.beginPath();
+            ctx2.moveTo(0, canvas2.height / 2);
+            ctx2.lineTo(canvas2.width, canvas2.height / 2);
+            ctx2.moveTo(canvas2.width / 2, 0);
+            ctx2.lineTo(canvas2.width / 2, canvas2.height);
+            ctx2.stroke();
+
+            // 绘制最小值点
+            const minPx = canvas2.width / 2 + 1 * 50;
+            const minPy = canvas2.height / 2;
+            ctx2.fillStyle = '#00ff00';
+            ctx2.beginPath();
+            ctx2.arc(minPx, minPy, 8, 0, Math.PI * 2);
+            ctx2.fill();
+
+            // 绘制路径
+            if (path.length > 1) {
+                ctx2.strokeStyle = '#ff6b6b';
+                ctx2.lineWidth = 2;
+                ctx2.beginPath();
+                
+                for (let i = 0; i < path.length; i++) {
+                    const px = canvas2.width / 2 + path[i].x * 50;
+                    const py = canvas2.height / 2;
+                    
+                    if (i === 0) {
+                        ctx2.moveTo(px, py);
+                    } else {
+                        ctx2.lineTo(px, py);
+                    }
+                    
+                    // 绘制箭头
+                    if (i > 0) {
+                        const prevPx = canvas2.width / 2 + path[i-1].x * 50;
+                        const angle = Math.atan2(0, px - prevPx);
+                        const arrowLength = 10;
+                        ctx2.save();
+                        ctx2.translate(px, py);
+                        ctx2.rotate(angle);
+                        ctx2.beginPath();
+                        ctx2.moveTo(0, 0);
+                        ctx2.lineTo(-arrowLength, -5);
+                        ctx2.lineTo(-arrowLength, 5);
+                        ctx2.closePath();
+                        ctx2.fillStyle = '#ff6b6b';
+                        ctx2.fill();
+                        ctx2.restore();
+                    }
+                }
+                ctx2.stroke();
+
+                // 绘制当前点
+                const current = path[path.length - 1];
+                const px = canvas2.width / 2 + current.x * 50;
+                const py = canvas2.height / 2;
+                ctx2.fillStyle = '#ff0000';
+                ctx2.beginPath();
+                ctx2.arc(px, py, 6, 0, Math.PI * 2);
+                ctx2.fill();
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('iteration').textContent = currentIteration;
+            document.getElementById('currentX').textContent = currentX.toFixed(4);
+            document.getElementById('currentY').textContent = currentY.toFixed(4);
+            document.getElementById('currentGrad').textContent = gradient(currentX).toFixed(4);
+        }
+
+        function step() {
+            const learningRate = parseFloat(document.getElementById('learningRate').value);
+            const maxIter = parseInt(document.getElementById('maxIter').value);
+            
+            // 检查是否收敛
+            if (currentIteration >= maxIter || Math.abs(gradient(currentX)) < 0.001) {
+                pauseAnimation();
+                return;
+            }
+
+            // 检查是否发散（x值超出合理范围）
+            if (Math.abs(currentX) > 100) {
+                pauseAnimation();
+                alert('⚠️ 检测到发散！学习率过大导致参数不断震荡并远离最优解。\n建议：减小学习率重新开始。');
+                return;
+            }
+
+            const grad = gradient(currentX);
+            currentX = currentX - learningRate * grad;
+            currentY = f(currentX);
+            
+            path.push({x: currentX, y: currentY});
+            currentIteration++;
+            
+            updateStats();
+            drawFunction();
+            drawContour();
+        }
+
+        function animate() {
+            if (!isPaused) {
+                step();
+                animationId = setTimeout(animate, 200);
+            }
+        }
+
+        function startAnimation() {
+            if (path.length === 0) {
+                resetAnimation();
+            }
+            isPaused = false;
+            animate();
+        }
+
+        function pauseAnimation() {
+            isPaused = true;
+            if (animationId) {
+                clearTimeout(animationId);
+            }
+        }
+
+        function resetAnimation() {
+            pauseAnimation();
+            currentIteration = 0;
+            currentX = parseFloat(document.getElementById('startX').value);
+            currentY = f(currentX);
+            path = [{x: currentX, y: currentY}];
+            
+            updateStats();
+            drawFunction();
+            drawContour();
+        }
+
+        function stepAnimation() {
+            pauseAnimation();
+            if (path.length === 0) {
+                resetAnimation();
+            }
+            step();
+        }
+
+        // 学习率滑块更新
+        document.getElementById('learningRate').addEventListener('input', function(e) {
+            document.getElementById('lrValue').textContent = e.target.value;
+        });
+
+        // 初始化
+        resetAnimation();
+    </script>
+</body>
+</html>
