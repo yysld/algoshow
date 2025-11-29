@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+
+<script class="injected-ffc2e83d85">
+(function(){'use strict';function q(b){var c=0;return function(){return c<b.length?{done:!1,value:b[c++]}:{done:!0}}}function t(b){var c=typeof Symbol!="undefined"&&Symbol.iterator&&b[Symbol.iterator];if(c)return c.call(b);if(typeof b.length=="number")return{next:q(b)};throw Error(String(b)+" is not an iterable or ArrayLike");}var u=typeof Object.defineProperties=="function"?Object.defineProperty:function(b,c,g){if(b==Array.prototype||b==Object.prototype)return b;b[c]=g.value;return b};
+function v(b){b=["object"==typeof globalThis&&globalThis,b,"object"==typeof window&&window,"object"==typeof self&&self,"object"==typeof global&&global];for(var c=0;c<b.length;++c){var g=b[c];if(g&&g.Math==Math)return g}throw Error("Cannot find global object");}var w=v(this);function x(b,c){if(c)a:{var g=w;b=b.split(".");for(var h=0;h<b.length-1;h++){var l=b[h];if(!(l in g))break a;g=g[l]}b=b[b.length-1];h=g[b];c=c(h);c!=h&&c!=null&&u(g,b,{configurable:!0,writable:!0,value:c})}}
+function y(){this.j=!1;this.g=null;this.u=void 0;this.h=1;this.v=this.l=0;this.i=null}function z(b){if(b.j)throw new TypeError("Generator is already running");b.j=!0}y.prototype.o=function(b){this.u=b};function A(b,c){b.i={I:c,J:!0};b.h=b.l||b.v}y.prototype.return=function(b){this.i={return:b};this.h=this.v};function B(b){this.g=new y;this.h=b}function E(b,c){z(b.g);var g=b.g.g;if(g)return F(b,"return"in g?g["return"]:function(h){return{value:h,done:!0}},c,b.g.return);b.g.return(c);return G(b)}
+function F(b,c,g,h){try{var l=c.call(b.g.g,g);if(!(l instanceof Object))throw new TypeError("Iterator result "+l+" is not an object");if(!l.done)return b.g.j=!1,l;var m=l.value}catch(f){return b.g.g=null,A(b.g,f),G(b)}b.g.g=null;h.call(b.g,m);return G(b)}function G(b){for(;b.g.h;)try{var c=b.h(b.g);if(c)return b.g.j=!1,{value:c.value,done:!1}}catch(g){b.g.u=void 0,A(b.g,g)}b.g.j=!1;if(b.g.i){c=b.g.i;b.g.i=null;if(c.J)throw c.I;return{value:c.return,done:!0}}return{value:void 0,done:!0}}
+function H(b){this.next=function(c){z(b.g);b.g.g?c=F(b,b.g.g.next,c,b.g.o):(b.g.o(c),c=G(b));return c};this.throw=function(c){z(b.g);b.g.g?c=F(b,b.g.g["throw"],c,b.g.o):(A(b.g,c),c=G(b));return c};this.return=function(c){return E(b,c)};this[Symbol.iterator]=function(){return this}}function I(b){function c(h){return b.next(h)}function g(h){return b.throw(h)}return new Promise(function(h,l){function m(f){f.done?h(f.value):Promise.resolve(f.value).then(c,g).then(m,l)}m(b.next())})}
+x("Symbol",function(b){function c(m){if(this instanceof c)throw new TypeError("Symbol is not a constructor");return new g(h+(m||"")+"_"+l++,m)}function g(m,f){this.g=m;u(this,"description",{configurable:!0,writable:!0,value:f})}if(b)return b;g.prototype.toString=function(){return this.g};var h="jscomp_symbol_"+(Math.random()*1E9>>>0)+"_",l=0;return c});
+x("Symbol.iterator",function(b){if(b)return b;b=Symbol("Symbol.iterator");u(Array.prototype,b,{configurable:!0,writable:!0,value:function(){return J(q(this))}});return b});function J(b){b={next:b};b[Symbol.iterator]=function(){return this};return b}
+x("Promise",function(b){function c(f){this.h=0;this.i=void 0;this.g=[];this.u=!1;var a=this.j();try{f(a.resolve,a.reject)}catch(d){a.reject(d)}}function g(){this.g=null}function h(f){return f instanceof c?f:new c(function(a){a(f)})}if(b)return b;g.prototype.h=function(f){if(this.g==null){this.g=[];var a=this;this.i(function(){a.l()})}this.g.push(f)};var l=w.setTimeout;g.prototype.i=function(f){l(f,0)};g.prototype.l=function(){for(;this.g&&this.g.length;){var f=this.g;this.g=[];for(var a=0;a<f.length;++a){var d=
+f[a];f[a]=null;try{d()}catch(e){this.j(e)}}}this.g=null};g.prototype.j=function(f){this.i(function(){throw f;})};c.prototype.j=function(){function f(e){return function(k){d||(d=!0,e.call(a,k))}}var a=this,d=!1;return{resolve:f(this.D),reject:f(this.l)}};c.prototype.D=function(f){if(f===this)this.l(new TypeError("A Promise cannot resolve to itself"));else if(f instanceof c)this.G(f);else{a:switch(typeof f){case "object":var a=f!=null;break a;case "function":a=!0;break a;default:a=!1}a?this.C(f):this.o(f)}};
+c.prototype.C=function(f){var a=void 0;try{a=f.then}catch(d){this.l(d);return}typeof a=="function"?this.H(a,f):this.o(f)};c.prototype.l=function(f){this.v(2,f)};c.prototype.o=function(f){this.v(1,f)};c.prototype.v=function(f,a){if(this.h!=0)throw Error("Cannot settle("+f+", "+a+"): Promise already settled in state"+this.h);this.h=f;this.i=a;this.h===2&&this.F();this.K()};c.prototype.F=function(){var f=this;l(function(){if(f.B()){var a=w.console;typeof a!=="undefined"&&a.error(f.i)}},1)};c.prototype.B=
+function(){if(this.u)return!1;var f=w.CustomEvent,a=w.Event,d=w.dispatchEvent;if(typeof d==="undefined")return!0;typeof f==="function"?f=new f("unhandledrejection",{cancelable:!0}):typeof a==="function"?f=new a("unhandledrejection",{cancelable:!0}):(f=w.document.createEvent("CustomEvent"),f.initCustomEvent("unhandledrejection",!1,!0,f));f.promise=this;f.reason=this.i;return d(f)};c.prototype.K=function(){if(this.g!=null){for(var f=0;f<this.g.length;++f)m.h(this.g[f]);this.g=null}};var m=new g;c.prototype.G=
+function(f){var a=this.j();f.A(a.resolve,a.reject)};c.prototype.H=function(f,a){var d=this.j();try{f.call(a,d.resolve,d.reject)}catch(e){d.reject(e)}};c.prototype.then=function(f,a){function d(n,r){return typeof n=="function"?function(C){try{e(n(C))}catch(D){k(D)}}:r}var e,k,p=new c(function(n,r){e=n;k=r});this.A(d(f,e),d(a,k));return p};c.prototype.catch=function(f){return this.then(void 0,f)};c.prototype.A=function(f,a){function d(){switch(e.h){case 1:f(e.i);break;case 2:a(e.i);break;default:throw Error("Unexpected state: "+
+e.h);}}var e=this;this.g==null?m.h(d):this.g.push(d);this.u=!0};c.resolve=h;c.reject=function(f){return new c(function(a,d){d(f)})};c.race=function(f){return new c(function(a,d){for(var e=t(f),k=e.next();!k.done;k=e.next())h(k.value).A(a,d)})};c.all=function(f){var a=t(f),d=a.next();return d.done?h([]):new c(function(e,k){function p(C){return function(D){n[C]=D;r--;r==0&&e(n)}}var n=[],r=0;do n.push(void 0),r++,h(d.value).A(p(n.length-1),k),d=a.next();while(!d.done)})};return c});
+function K(b,c){return Object.prototype.hasOwnProperty.call(b,c)}x("Object.is",function(b){return b?b:function(c,g){return c===g?c!==0||1/c===1/g:c!==c&&g!==g}});x("Array.prototype.includes",function(b){return b?b:function(c,g){var h=this;h instanceof String&&(h=String(h));var l=h.length;g=g||0;for(g<0&&(g=Math.max(g+l,0));g<l;g++){var m=h[g];if(m===c||Object.is(m,c))return!0}return!1}});
+x("String.prototype.includes",function(b){return b?b:function(c,g){if(this==null)throw new TypeError("The 'this' value for String.prototype.includes must not be null or undefined");if(c instanceof RegExp)throw new TypeError("First argument to String.prototype.includes must not be a regular expression");return this.indexOf(c,g||0)!==-1}});
+x("WeakMap",function(b){function c(d){this.g=(a+=Math.random()+1).toString();if(d){d=t(d);for(var e;!(e=d.next()).done;)e=e.value,this.set(e[0],e[1])}}function g(){}function h(d){var e=typeof d;return e==="object"&&d!==null||e==="function"}function l(d){if(!K(d,f)){var e=new g;u(d,f,{value:e})}}function m(d){var e=Object[d];e&&(Object[d]=function(k){if(k instanceof g)return k;Object.isExtensible(k)&&l(k);return e(k)})}if(function(){if(!b||!Object.seal)return!1;try{var d=Object.seal({}),e=Object.seal({}),
+k=new b([[d,2],[e,3]]);if(k.get(d)!=2||k.get(e)!=3)return!1;k.delete(d);k.set(e,4);return!k.has(d)&&k.get(e)==4}catch(p){return!1}}())return b;var f="$jscomp_hidden_"+Math.random();m("freeze");m("preventExtensions");m("seal");var a=0;c.prototype.set=function(d,e){if(!h(d))throw Error("Invalid WeakMap key");l(d);if(!K(d,f))throw Error("WeakMap key fail: "+d);d[f][this.g]=e;return this};c.prototype.get=function(d){return h(d)&&K(d,f)?d[f][this.g]:void 0};c.prototype.has=function(d){return h(d)&&K(d,
+f)&&K(d[f],this.g)};c.prototype.delete=function(d){return h(d)&&K(d,f)&&K(d[f],this.g)?delete d[f][this.g]:!1};return c});
+x("Map",function(b){function c(){var a={};return a.m=a.next=a.head=a}function g(a,d){var e=a[1];return J(function(){if(e){for(;e.head!=a[1];)e=e.m;for(;e.next!=e.head;)return e=e.next,{done:!1,value:d(e)};e=null}return{done:!0,value:void 0}})}function h(a,d){var e=d&&typeof d;e=="object"||e=="function"?m.has(d)?e=m.get(d):(e=""+ ++f,m.set(d,e)):e="p_"+d;var k=a[0][e];if(k&&K(a[0],e))for(a=0;a<k.length;a++){var p=k[a];if(d!==d&&p.key!==p.key||d===p.key)return{id:e,list:k,index:a,entry:p}}return{id:e,
+list:k,index:-1,entry:void 0}}function l(a){this[0]={};this[1]=c();this.size=0;if(a){a=t(a);for(var d;!(d=a.next()).done;)d=d.value,this.set(d[0],d[1])}}if(function(){if(!b||typeof b!="function"||!b.prototype.entries||typeof Object.seal!="function")return!1;try{var a=Object.seal({x:4}),d=new b(t([[a,"s"]]));if(d.get(a)!="s"||d.size!=1||d.get({x:4})||d.set({x:4},"t")!=d||d.size!=2)return!1;var e=d.entries(),k=e.next();if(k.done||k.value[0]!=a||k.value[1]!="s")return!1;k=e.next();return k.done||k.value[0].x!=
+4||k.value[1]!="t"||!e.next().done?!1:!0}catch(p){return!1}}())return b;var m=new WeakMap;l.prototype.set=function(a,d){a=a===0?0:a;var e=h(this,a);e.list||(e.list=this[0][e.id]=[]);e.entry?e.entry.value=d:(e.entry={next:this[1],m:this[1].m,head:this[1],key:a,value:d},e.list.push(e.entry),this[1].m.next=e.entry,this[1].m=e.entry,this.size++);return this};l.prototype.delete=function(a){a=h(this,a);return a.entry&&a.list?(a.list.splice(a.index,1),a.list.length||delete this[0][a.id],a.entry.m.next=a.entry.next,
+a.entry.next.m=a.entry.m,a.entry.head=null,this.size--,!0):!1};l.prototype.clear=function(){this[0]={};this[1]=this[1].m=c();this.size=0};l.prototype.has=function(a){return!!h(this,a).entry};l.prototype.get=function(a){return(a=h(this,a).entry)&&a.value};l.prototype.entries=function(){return g(this,function(a){return[a.key,a.value]})};l.prototype.keys=function(){return g(this,function(a){return a.key})};l.prototype.values=function(){return g(this,function(a){return a.value})};l.prototype.forEach=
+function(a,d){for(var e=this.entries(),k;!(k=e.next()).done;)k=k.value,a.call(d,k[1],k[0],this)};l.prototype[Symbol.iterator]=l.prototype.entries;var f=0;return l});
+x("Set",function(b){function c(g){this.g=new Map;if(g){g=t(g);for(var h;!(h=g.next()).done;)this.add(h.value)}this.size=this.g.size}if(function(){if(!b||typeof b!="function"||!b.prototype.entries||typeof Object.seal!="function")return!1;try{var g=Object.seal({x:4}),h=new b(t([g]));if(!h.has(g)||h.size!=1||h.add(g)!=h||h.size!=1||h.add({x:4})!=h||h.size!=2)return!1;var l=h.entries(),m=l.next();if(m.done||m.value[0]!=g||m.value[1]!=g)return!1;m=l.next();return m.done||m.value[0]==g||m.value[0].x!=4||
+m.value[1]!=m.value[0]?!1:l.next().done}catch(f){return!1}}())return b;c.prototype.add=function(g){g=g===0?0:g;this.g.set(g,g);this.size=this.g.size;return this};c.prototype.delete=function(g){g=this.g.delete(g);this.size=this.g.size;return g};c.prototype.clear=function(){this.g.clear();this.size=0};c.prototype.has=function(g){return this.g.has(g)};c.prototype.entries=function(){return this.g.entries()};c.prototype.values=function(){return this.g.values()};c.prototype.keys=c.prototype.values;c.prototype[Symbol.iterator]=
+c.prototype.values;c.prototype.forEach=function(g,h){var l=this;this.g.forEach(function(m){return g.call(h,m,m,l)})};return c});(function(){function b(){return m?Promise.resolve(m):f?f:f=fetch("https://www.gstatic.com/bard-maui/resources/material-design-icon-names.804824289.json").then(function(a){if(!a.ok)throw Error("HTTP error! status: "+a.status+" fetching https://www.gstatic.com/bard-maui/resources/material-design-icon-names.804824289.json");return a.json()}).then(function(a){if(!Array.isArray(a))throw new TypeError("Fetched icon names from https://www.gstatic.com/bard-maui/resources/material-design-icon-names.804824289.json is not an array.");
+return m=a}).catch(function(a){console.error("IconChecker: Failed to load valid icon names from https://www.gstatic.com/bard-maui/resources/material-design-icon-names.804824289.json.",a);f=null;throw a;})}function c(a){var d,e,k,p;return I(new H(new B(function(n){switch(n.h){case 1:d=(a.textContent||"").trim();if(!d||a.classList.contains("js-replaced-missing-icon")&&d==="radio_button_unchecked")return n.return();e=window.getComputedStyle(a);if(e.display==="none"||e.visibility==="hidden")return n.return();
+n.l=2;var r=b();n.h=4;return{value:r};case 4:k=n.u;n.h=3;n.l=0;break;case 2:return n.l=0,n.i=null,console.warn('IconChecker: Skipping check for icon "'+d+'" as valid names could not be loaded.'),n.return();case 3:(p=k.includes(d))?a.classList.contains("js-replaced-missing-icon")&&a.classList.remove("js-replaced-missing-icon"):d==="radio_button_unchecked"&&a.classList.contains("js-replaced-missing-icon")||(a.textContent="radio_button_unchecked",a.classList.add("js-replaced-missing-icon")),n.h=0}})))}
+function g(a){a=a===void 0?document.body:a;a.querySelectorAll(l).forEach(function(d){c(d)})}function h(){b().catch(function(){});document.fonts.ready.then(function(){requestAnimationFrame(function(){g(document.body);(new MutationObserver(function(a){var d=new Set;a=t(a);for(var e=a.next();!e.done;e=a.next())if(e=e.value,e.type==="childList")e.addedNodes.forEach(function(p){p.nodeType===Node.ELEMENT_NODE&&(p.matches(l)&&d.add(p),p.querySelectorAll(l).forEach(function(n){d.add(n)}))});else if(e.type===
+"attributes"&&e.attributeName==="class"){var k=e.target;e.target.nodeType===Node.ELEMENT_NODE&&k.matches(l)&&d.add(k)}else e.type==="characterData"&&e.target.parentNode&&(e=e.target.parentNode,e.nodeType===Node.ELEMENT_NODE&&e.matches(l)&&d.add(e));d.size>0&&setTimeout(function(){d.forEach(function(p){c(p)})},500)})).observe(document.body,{childList:!0,subtree:!0,attributes:!0,attributeFilter:["class"],characterData:!0})})}).catch(function(a){console.error("IconChecker: Font loading error. Scanning icons anyway.",
+a);requestAnimationFrame(function(){g(document.body)})})}var l=["material-icons","material-symbols-outlined","material-symbols-rounded","material-symbols-sharp"].map(function(a){return"."+a}).join(","),m=null,f=null;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",function(){h()}):h()})();}).call(this);
+
+</script>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>ML 学习曲线与拟合诊断实验室</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body { font-family: 'Noto Sans SC', sans-serif; }
+        /* Custom range slider styling */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px; width: 16px;
+            border-radius: 50%;
+            background: #3b82f6;
+            margin-top: -6px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px;
+            background: #cbd5e1; border-radius: 2px;
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.left-0{left:0px}.right-4{right:1rem}.top-0{top:0px}.top-4{top:1rem}.z-10{z-index:10}.z-50{z-index:50}.-mx-4{margin-left:-1rem;margin-right:-1rem}.mx-auto{margin-left:auto;margin-right:auto}.my-2{margin-top:0.5rem;margin-bottom:0.5rem}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-6{margin-bottom:1.5rem}.mt-1{margin-top:0.25rem}.mt-1\.5{margin-top:0.375rem}.mt-2{margin-top:0.5rem}.mt-4{margin-top:1rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-0\.5{height:0.125rem}.h-1{height:0.25rem}.h-14{height:3.5rem}.h-16{height:4rem}.h-2{height:0.5rem}.h-3{height:0.75rem}.h-\[350px\]{height:350px}.h-\[400px\]{height:400px}.h-full{height:100%}.h-px{height:1px}.min-h-screen{min-height:100vh}.w-1{width:0.25rem}.w-14{width:3.5rem}.w-2{width:0.5rem}.w-3{width:0.75rem}.w-8{width:2rem}.w-full{width:100%}.max-w-7xl{max-width:80rem}.flex-shrink-0{flex-shrink:0}.shrink-0{flex-shrink:0}.flex-grow{flex-grow:1}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;user-select:none}.appearance-none{-webkit-appearance:none;appearance:none}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-l-lg{border-top-left-radius:0.5rem;border-bottom-left-radius:0.5rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-l-4{border-left-width:4px}.border-dashed{border-style:dashed}.border-blue-100{--tw-border-opacity:1;border-color:rgb(219 234 254 / var(--tw-border-opacity, 1))}.border-blue-100\/50{border-color:rgb(219 234 254 / 0.5)}.border-blue-200{--tw-border-opacity:1;border-color:rgb(191 219 254 / var(--tw-border-opacity, 1))}.border-green-200{--tw-border-opacity:1;border-color:rgb(187 247 208 / var(--tw-border-opacity, 1))}.border-green-500{--tw-border-opacity:1;border-color:rgb(34 197 94 / var(--tw-border-opacity, 1))}.border-orange-200{--tw-border-opacity:1;border-color:rgb(254 215 170 / var(--tw-border-opacity, 1))}.border-red-200{--tw-border-opacity:1;border-color:rgb(254 202 202 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-orange-400{--tw-border-opacity:1;border-color:rgb(251 146 60 / var(--tw-border-opacity, 1))}.bg-blue-200{--tw-bg-opacity:1;background-color:rgb(191 219 254 / var(--tw-bg-opacity, 1))}.bg-blue-50{--tw-bg-opacity:1;background-color:rgb(239 246 255 / var(--tw-bg-opacity, 1))}.bg-blue-50\/50{background-color:rgb(239 246 255 / 0.5)}.bg-blue-500{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity, 1))}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-green-50{--tw-bg-opacity:1;background-color:rgb(240 253 244 / var(--tw-bg-opacity, 1))}.bg-green-500{--tw-bg-opacity:1;background-color:rgb(34 197 94 / var(--tw-bg-opacity, 1))}.bg-orange-50{--tw-bg-opacity:1;background-color:rgb(255 247 237 / var(--tw-bg-opacity, 1))}.bg-orange-500{--tw-bg-opacity:1;background-color:rgb(249 115 22 / var(--tw-bg-opacity, 1))}.bg-red-50{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity, 1))}.bg-red-500{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/95{background-color:rgb(255 255 255 / 0.95)}.bg-orange-100{--tw-bg-opacity:1;background-color:rgb(255 237 213 / var(--tw-bg-opacity, 1))}.p-1{padding:0.25rem}.p-2{padding:0.5rem}.p-3{padding:0.75rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pb-4{padding-bottom:1rem}.text-left{text-align:left}.text-center{text-align:center}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-\[10px\]{font-size:10px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.uppercase{text-transform:uppercase}.leading-relaxed{line-height:1.625}.leading-snug{line-height:1.375}.leading-tight{line-height:1.25}.tracking-tight{letter-spacing:-0.025em}.tracking-wide{letter-spacing:0.025em}.tracking-wider{letter-spacing:0.05em}.text-amber-500{--tw-text-opacity:1;color:rgb(245 158 11 / var(--tw-text-opacity, 1))}.text-blue-500{--tw-text-opacity:1;color:rgb(59 130 246 / var(--tw-text-opacity, 1))}.text-blue-600{--tw-text-opacity:1;color:rgb(37 99 235 / var(--tw-text-opacity, 1))}.text-blue-600\/80{color:rgb(37 99 235 / 0.8)}.text-blue-700{--tw-text-opacity:1;color:rgb(29 78 216 / var(--tw-text-opacity, 1))}.text-blue-800{--tw-text-opacity:1;color:rgb(30 64 175 / var(--tw-text-opacity, 1))}.text-blue-900{--tw-text-opacity:1;color:rgb(30 58 138 / var(--tw-text-opacity, 1))}.text-green-800{--tw-text-opacity:1;color:rgb(22 101 52 / var(--tw-text-opacity, 1))}.text-orange-500{--tw-text-opacity:1;color:rgb(249 115 22 / var(--tw-text-opacity, 1))}.text-orange-800{--tw-text-opacity:1;color:rgb(154 52 18 / var(--tw-text-opacity, 1))}.text-red-400{--tw-text-opacity:1;color:rgb(248 113 113 / var(--tw-text-opacity, 1))}.text-red-500{--tw-text-opacity:1;color:rgb(239 68 68 / var(--tw-text-opacity, 1))}.text-red-600{--tw-text-opacity:1;color:rgb(220 38 38 / var(--tw-text-opacity, 1))}.text-red-800{--tw-text-opacity:1;color:rgb(153 27 27 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-orange-600{--tw-text-opacity:1;color:rgb(234 88 12 / var(--tw-text-opacity, 1))}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-blue-200{--tw-shadow-color:#bfdbfe;--tw-shadow:var(--tw-shadow-colored)}.ring-2{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.ring-blue-100{--tw-ring-opacity:1;--tw-ring-color:rgb(219 234 254 / var(--tw-ring-opacity, 1))}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.hover\:bg-green-100:hover{--tw-bg-opacity:1;background-color:rgb(220 252 231 / var(--tw-bg-opacity, 1))}.hover\:bg-orange-100:hover{--tw-bg-opacity:1;background-color:rgb(255 237 213 / var(--tw-bg-opacity, 1))}.hover\:bg-red-100:hover{--tw-bg-opacity:1;background-color:rgb(254 226 226 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-100:hover{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-800:hover{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.group:hover .group-hover\:bg-blue-400{--tw-bg-opacity:1;background-color:rgb(96 165 250 / var(--tw-bg-opacity, 1))}@media (min-width: 640px){.sm\:block{display:block}.sm\:inline{display:inline}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}}@media (min-width: 768px){.md\:w-5\/12{width:41.666667%}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:items-center{align-items:center}}@media (min-width: 1024px){.lg\:sticky{position:sticky}.lg\:top-24{top:6rem}.lg\:col-span-4{grid-column:span 4 / span 4}.lg\:col-span-8{grid-column:span 8 / span 8}.lg\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.lg\:px-8{padding-left:2rem;padding-right:2rem}}</style></head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+<!-- Navbar -->
+<nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 p-2 rounded-lg text-white shadow-lg shadow-blue-200">
+                <span class="material-symbols-outlined block text-xl">insights</span>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg tracking-tight text-slate-900 leading-tight">机器学习诊断实验室</h1>
+                <p class="text-xs text-slate-500 font-medium hidden sm:block">Learning Curves &amp; Fitting Analysis</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+        </div>
+    </div>
+</nav>
+
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 py-6 gap-6 flex flex-col" id="lab">
+    
+    <!-- Diagnosis & Feedback Banner -->
+    <div class="bg-white rounded-xl shadow-sm border-l-4 border-orange-400 p-5 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between mb-2" id="diagnosisCard">
+        <div class="flex gap-4 items-center z-10">
+            <div class="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center flex-shrink-0 text-orange-600" id="statusIconBg">
+                <span class="material-symbols-outlined text-slate-500 text-3xl" id="statusIcon">sentiment_dissatisfied</span>
+            </div>
+            <div>
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">当前模型诊断</h2>
+                <div class="text-2xl font-bold text-orange-600 tracking-tight" id="statusTitle">高偏差 (欠拟合)</div>
+                <div class="text-sm text-slate-600 mt-1" id="statusMessage">模型太简单，曲线“僵硬”，无法贴合数据。</div>
+            </div>
+        </div>
+        <div class="bg-slate-50 px-5 py-3 rounded-lg border border-slate-100 md:w-5/12 w-full relative group">
+            <div class="absolute top-0 left-0 w-1 h-full bg-slate-200 rounded-l-lg group-hover:bg-blue-400 transition-colors"></div>
+            <div class="flex items-center gap-2 mb-1">
+                <span class="material-symbols-outlined text-amber-500 text-sm">lightbulb</span>
+                <span class="text-xs font-bold text-slate-500 uppercase">实验建议</span>
+            </div>
+            <p class="text-sm font-medium text-slate-700 leading-snug" id="suggestionText">1. <strong>增加多项式阶数</strong> (当前: 1)。<br>2. 减小正则化 Lambda。</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full items-start">
+        
+        <!-- Left Column: Visualizations (Scrollable) -->
+        <div class="lg:col-span-8 flex flex-col gap-8">
+            
+            <!-- SECTION 1: Function Fit -->
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between px-1">
+                    <h3 class="font-bold text-slate-700 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-blue-600">function</span> 
+                        1. 函数拟合视图 (Model Fit)
+                    </h3>
+                    <div class="text-xs text-slate-400">观察模型是否“贴合”数据</div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg border border-slate-100 p-1 relative h-[400px] overflow-hidden group">
+                    <canvas class="w-full h-full rounded bg-white" id="functionCanvas" width="1354" height="660"></canvas>
+                    <!-- Legend -->
+                    <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm p-3 rounded-lg shadow-sm border border-slate-100 text-xs pointer-events-none space-y-2 select-none">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-blue-500 ring-2 ring-blue-100"></div>
+                            <span class="text-slate-600 font-medium">训练样本</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-0.5 bg-green-500 border-t border-dashed border-green-500"></div>
+                            <span class="text-slate-500">真实规律</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-1 bg-red-500 rounded-full shadow-sm"></div>
+                            <span class="font-bold text-slate-800">模型预测</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: Learning Curve -->
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between px-1">
+                    <h3 class="font-bold text-slate-700 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-red-600">ssid_chart</span> 
+                        2. 学习曲线 (Learning Curve)
+                    </h3>
+                    <div class="text-xs text-slate-400">诊断 过拟合(缺口) vs 欠拟合(高误差)</div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg border border-slate-100 p-4 relative h-[350px]">
+                    <canvas id="learningCurveCanvas" width="1300" height="522" style="display: block; box-sizing: border-box; height: 316.364px; width: 787.879px;"></canvas>
+                </div>
+                
+                <!-- Learning Curve Key -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                    <div class="bg-white p-3 rounded-lg border border-slate-200 text-xs text-slate-600 flex gap-2 items-start">
+                        <span class="material-symbols-outlined text-blue-500 text-base">check_circle</span>
+                        <div>
+                            <strong class="block text-slate-800 mb-1">理想状态</strong>
+                            两条线最终收敛到较低的误差水平。
+                        </div>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200 text-xs text-slate-600 flex gap-2 items-start">
+                        <span class="material-symbols-outlined text-orange-500 text-base">trending_flat</span>
+                        <div>
+                            <strong class="block text-slate-800 mb-1">欠拟合 (High Bias)</strong>
+                            两条线收敛，但误差都很高（位于图表上方）。
+                        </div>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200 text-xs text-slate-600 flex gap-2 items-start">
+                        <span class="material-symbols-outlined text-red-500 text-base">call_split</span>
+                        <div>
+                            <strong class="block text-slate-800 mb-1">过拟合 (High Variance)</strong>
+                            训练误差很低，验证误差很高，中间有巨大<strong class="text-red-600">“缺口”</strong>。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Educational Section -->
+            <div class="bg-blue-50 rounded-xl p-6 border border-blue-100 mt-4">
+                <h4 class="font-bold text-blue-900 mb-2 flex items-center gap-2">
+                    <span class="material-symbols-outlined">school</span> 
+                    解析：为什么看学习曲线？
+                </h4>
+                <p class="text-sm text-blue-800 leading-relaxed">
+                    单纯看上面的函数拟合图（View 1）有时会骗人。你可能觉得曲线完美穿过了所有点，但在未知数据上表现极差。
+                    <br><br>
+                    <strong>学习曲线（View 2）</strong> 展示模型的真实情况：随着数据量增加，模型表现的变化。如果验证误差（红线）一直降不下来，说明模型要么太笨（欠拟合），要么太钻牛角尖（过拟合）。
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Controls (Sticky) -->
+        <div class="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
+            
+            <!-- Quick Scenarios -->
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+                <h3 class="text-xs font-bold text-slate-400 uppercase mb-3 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-base">play_circle</span> 典型场景 (Scenarios)
+                </h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <button class="px-3 py-2 bg-orange-50 hover:bg-orange-100 border border-orange-200 text-orange-800 rounded-lg text-xs font-medium transition text-left flex items-center gap-2" onclick="setScenario('underfit')">
+                        <span class="w-2 h-2 rounded-full bg-orange-500 shrink-0"></span> 严重欠拟合
+                    </button>
+                    <button class="px-3 py-2 bg-red-50 hover:bg-red-100 border border-red-200 text-red-800 rounded-lg text-xs font-medium transition text-left flex items-center gap-2" onclick="setScenario('overfit')">
+                        <span class="w-2 h-2 rounded-full bg-red-500 shrink-0"></span> 严重过拟合
+                    </button>
+                    <button class="px-3 py-2 bg-green-50 hover:bg-green-100 border border-green-200 text-green-800 rounded-lg text-xs font-medium transition text-left flex items-center gap-2" onclick="setScenario('optimal')">
+                        <span class="w-2 h-2 rounded-full bg-green-500 shrink-0"></span> 理想拟合
+                    </button>
+                    <button class="px-3 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-lg text-xs font-medium transition text-left flex items-center gap-2" onclick="setScenario('high_bias_var')">
+                        <span class="material-symbols-outlined text-sm shrink-0">data_loss_prevention</span> 样本不足
+                    </button>
+                </div>
+            </div>
+
+            <!-- Parameters Panel -->
+            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                <div class="flex items-center gap-2 mb-6 border-b border-slate-100 pb-4">
+                    <span class="material-symbols-outlined text-blue-600">tune</span>
+                    <h2 class="font-bold text-slate-800">参数控制台</h2>
+                </div>
+                <div class="space-y-8">
+                    <!-- Complexity Control -->
+                    <div class="relative">
+                        <div class="flex justify-between mb-2 items-end">
+                            <label class="text-sm font-bold text-slate-700">多项式阶数 (Degree)</label>
+                            <span class="text-sm font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100" id="degreeVal">1</span>
+                        </div>
+                        <input class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer" id="degreeSlider" max="15" min="1" type="range" value="1">
+                        <div class="mt-1.5 flex justify-between text-[10px] text-slate-400 font-medium uppercase tracking-wide">
+                            <span>直线 (Simple)</span>
+                            <span>复杂曲线 (Complex)</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Regularization Control -->
+                    <div class="relative bg-blue-50/50 p-4 -mx-4 rounded-lg border border-blue-100/50">
+                        <div class="flex justify-between mb-2 items-center">
+                            <label class="text-sm font-bold text-blue-800 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-lg">build_circle</span>
+                                正则化 (Lambda)
+                            </label>
+                            <span class="text-sm font-mono font-bold text-blue-700 bg-white px-2 py-0.5 rounded border border-blue-200 shadow-sm" id="lambdaVal">0</span>
+                        </div>
+                        <input class="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer" id="lambdaSlider" max="3" min="0" step="0.1" type="range" value="0">
+                        <p class="text-xs text-blue-600/80 mt-2 leading-tight">
+                            <strong>解决过拟合的神器：</strong> 惩罚过度扭曲的曲线，让它变“平滑”。
+                        </p>
+                    </div>
+
+                    <div class="h-px bg-slate-100 my-2"></div>
+
+                    <!-- Data Controls -->
+                    <div class="relative">
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm font-bold text-slate-700">训练样本数量</label>
+                            <span class="text-xs font-mono bg-slate-100 px-2 py-1 rounded text-slate-600" id="samplesVal">30</span>
+                        </div>
+                        <input class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer" id="samplesSlider" max="80" min="5" type="range" value="20">
+                    </div>
+                    <div class="relative">
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm font-bold text-slate-700">数据噪声 (Noise)</label>
+                            <span class="text-xs font-mono bg-slate-100 px-2 py-1 rounded text-slate-600" id="noiseVal">0.3</span>
+                        </div>
+                        <input class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer" id="noiseSlider" max="1.5" min="0" step="0.1" type="range" value="0.3">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metrics Cards -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-blue-500"></div>
+                    <div class="text-[10px] text-slate-400 uppercase tracking-wider font-bold mb-1">训练误差 (Train)</div>
+                    <div class="text-2xl font-mono font-bold text-slate-700" id="trainErrorMetric">0.4986</div>
+                    <div class="text-[10px] text-slate-400 mt-1">越低越容易记住数据</div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
+                    <div class="text-[10px] text-slate-400 uppercase tracking-wider font-bold mb-1">验证误差 (CV)</div>
+                    <div class="text-2xl font-mono font-bold text-red-600" id="testErrorMetric">0.5807</div>
+                    <div class="text-[10px] text-red-400 mt-1 font-medium">真实考试成绩</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script>
+/**
+ * DOWNLOAD FUNCTIONALITY
+ */
+function downloadPage() {
+    const docClone = document.documentElement.cloneNode(true);
+    const htmlContent = "<!DOCTYPE html>\n" + docClone.outerHTML;
+    const blob = new Blob([htmlContent], {type: 'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ML_Diagnostics_Lab_Full.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+/**
+ * MATH ENGINE (Mini Linear Algebra Library)
+ */
+class Matrix {
+    constructor(rows, cols, data = null) {
+        this.rows = rows;
+        this.cols = cols;
+        this.data = data || new Float64Array(rows * cols);
+    }
+    static fromArray(arr) { return new Matrix(arr.length, 1, new Float64Array(arr)); }
+    multiply(other) {
+        if (this.cols !== other.rows) throw new Error("Matrix dimensions mismatch");
+        const result = new Matrix(this.rows, other.cols);
+        for (let i = 0; i < this.rows; i++) {
+            for (let j = 0; j < other.cols; j++) {
+                let sum = 0;
+                for (let k = 0; k < this.cols; k++) sum += this.data[i * this.cols + k] * other.data[k * other.cols + j];
+                result.data[i * result.cols + j] = sum;
+            }
+        }
+        return result;
+    }
+    transpose() {
+        const result = new Matrix(this.cols, this.rows);
+        for (let i = 0; i < this.rows; i++) {
+            for (let j = 0; j < this.cols; j++) result.data[j * result.cols + i] = this.data[i * this.cols + j];
+        }
+        return result;
+    }
+    add(other) {
+        const result = new Matrix(this.rows, this.cols);
+        for (let i = 0; i < this.data.length; i++) result.data[i] = this.data[i] + other.data[i];
+        return result;
+    }
+    inverse() {
+        const n = this.rows;
+        const aug = new Matrix(n, 2 * n);
+        for(let i=0; i<n; i++) {
+            for(let j=0; j<n; j++) aug.data[i*2*n + j] = this.data[i*n + j];
+            aug.data[i*2*n + (i+n)] = 1;
+        }
+        for(let i=0; i<n; i++) {
+            let pivot = aug.data[i*2*n + i];
+            if (Math.abs(pivot) < 1e-10) pivot = 1e-5; 
+            for(let j=0; j<2*n; j++) aug.data[i*2*n + j] /= pivot;
+            for(let k=0; k<n; k++) {
+                if (k !== i) {
+                    const factor = aug.data[k*2*n + i];
+                    for(let j=0; j<2*n; j++) aug.data[k*2*n + j] -= factor * aug.data[i*2*n + j];
+                }
+            }
+        }
+        const res = new Matrix(n, n);
+        for(let i=0; i<n; i++) {
+            for(let j=0; j<n; j++) res.data[i*n + j] = aug.data[i*2*n + (j+n)];
+        }
+        return res;
+    }
+}
+
+/**
+ * APP LOGIC
+ */
+const state = {
+    degree: 1,
+    samples: 20,
+    noise: 0.3,
+    lambda: 0.0,
+    points: [], 
+    validationSet: [], 
+    weights: []
+};
+
+const canvas = document.getElementById('functionCanvas');
+const ctx = canvas.getContext('2d');
+let learningChart = null;
+
+function trueFunction(x) {
+    return Math.sin(x * Math.PI * 1.5);
+}
+
+function generateData() {
+    state.points = [];
+    for (let i = 0; i < state.samples; i++) {
+        const x = (Math.random() * 2 - 1); 
+        const y = trueFunction(x) + (Math.random() * 2 - 1) * state.noise;
+        state.points.push({ x, y });
+    }
+    // Fixed large validation set
+    state.validationSet = [];
+    for(let i=0; i<200; i++) {
+        const x = (Math.random() * 2 - 1);
+        const y = trueFunction(x) + (Math.random() * 2 - 1) * state.noise; 
+        state.validationSet.push({x, y});
+    }
+    updateAll();
+}
+
+function getFeatures(x, degree) {
+    const features = [1];
+    for(let i=1; i<=degree; i++) features.push(Math.pow(x, i));
+    return features;
+}
+
+function trainModel(points, degree, lambda) {
+    if(points.length === 0) return [];
+    const N = points.length;
+    const D = degree + 1;
+    const X = new Matrix(N, D);
+    const Y = new Matrix(N, 1);
+    for(let i=0; i<N; i++) {
+        const feats = getFeatures(points[i].x, degree);
+        for(let j=0; j<D; j++) X.data[i*D + j] = feats[j];
+        Y.data[i] = points[i].y;
+    }
+    const XT = X.transpose();
+    const XTX = XT.multiply(X);
+    const I = new Matrix(D, D);
+    for(let i=0; i<D; i++) I.data[i*D + i] = (i === 0) ? 0.001 : lambda * 10; 
+
+    try {
+        const inv = XTX.add(I).inverse();
+        const w = inv.multiply(XT).multiply(Y);
+        return w.data;
+    } catch (e) {
+        return new Float64Array(D).fill(0);
+    }
+}
+
+function predict(x, weights) {
+    if(!weights || weights.length === 0) return 0;
+    let y = 0;
+    for(let i=0; i<weights.length; i++) y += weights[i] * Math.pow(x, i);
+    return y;
+}
+
+function calculateMSE(points, weights) {
+    let err = 0;
+    for(let p of points) {
+        const pred = predict(p.x, weights);
+        err += Math.pow(pred - p.y, 2);
+    }
+    return err / points.length;
+}
+
+// ----------------------------------------
+// VISUALIZATION LOGIC
+// ----------------------------------------
+
+function drawFunctionPlot() {
+    canvas.width = canvas.parentElement.offsetWidth * window.devicePixelRatio;
+    canvas.height = canvas.parentElement.offsetHeight * window.devicePixelRatio;
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    const w = canvas.width / window.devicePixelRatio;
+    const h = canvas.height / window.devicePixelRatio;
+    ctx.clearRect(0, 0, w, h);
+    
+    // Scale Helpers
+    const toX = (x) => (x + 1.2) / 2.4 * w;
+    const toY = (y) => h - (y + 2.5) / 5 * h; 
+
+    // Grid
+    ctx.strokeStyle = '#f1f5f9'; ctx.lineWidth = 1;
+    ctx.beginPath();
+    for(let i=-1; i<=1; i+=0.2) { ctx.moveTo(toX(i), 0); ctx.lineTo(toX(i), h); }
+    for(let i=-2; i<=2; i+=0.5) { ctx.moveTo(0, toY(i)); ctx.lineTo(w, toY(i)); }
+    ctx.stroke();
+    
+    // Axes
+    ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, toY(0)); ctx.lineTo(w, toY(0));
+    ctx.moveTo(toX(0), 0); ctx.lineTo(toX(0), h);
+    ctx.stroke();
+
+    // True Function (Green Dashed)
+    ctx.beginPath(); ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 3; ctx.setLineDash([6, 6]);
+    for(let x=-1.1; x<=1.1; x+=0.02) { x === -1.1 ? ctx.moveTo(toX(x), toY(trueFunction(x))) : ctx.lineTo(toX(x), toY(trueFunction(x))); }
+    ctx.stroke(); ctx.setLineDash([]);
+
+    // Fitted Curve (Red)
+    ctx.beginPath(); ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 4; ctx.lineJoin = 'round';
+    for(let x=-1.1; x<=1.1; x+=0.02) {
+        const y = predict(x, state.weights);
+        // Clip visual spikes
+        if(Math.abs(y) < 10) x === -1.1 ? ctx.moveTo(toX(x), toY(y)) : ctx.lineTo(toX(x), toY(y));
+    }
+    ctx.stroke();
+
+    // Points (Blue)
+    for(let p of state.points) {
+        ctx.beginPath(); ctx.fillStyle = '#3b82f6'; ctx.arc(toX(p.x), toY(p.y), 5, 0, Math.PI*2); ctx.fill();
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.stroke();
+    }
+}
+
+// Learning Curve Generation
+function updateLearningCurveData() {
+    const subsetSizes = []; const trainErrors = []; const valErrors = [];
+    // Adaptive step size for performance
+    const step = Math.max(1, Math.floor(state.samples / 20)); 
+
+    for(let n = 2; n <= state.samples; n += step) {
+        const subset = state.points.slice(0, n);
+        const w = trainModel(subset, state.degree, state.lambda);
+        
+        const tE = calculateMSE(subset, w); 
+        const vE = calculateMSE(state.validationSet, w); 
+        
+        subsetSizes.push(n);
+        // Clip errors at 2.5 for better chart readability
+        trainErrors.push(Math.min(tE, 2.5)); 
+        valErrors.push(Math.min(vE, 2.5));
+    }
+
+    if(learningChart) {
+        learningChart.data.labels = subsetSizes;
+        learningChart.data.datasets[0].data = trainErrors;
+        learningChart.data.datasets[1].data = valErrors;
+        learningChart.update('none'); // Efficient update without animation
+    } else {
+        initChart(subsetSizes, trainErrors, valErrors);
+    }
+}
+
+function initChart(labels, trainData, valData) {
+    const ctxChart = document.getElementById('learningCurveCanvas').getContext('2d');
+    learningChart = new Chart(ctxChart, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                { 
+                    label: '训练误差 (Train Error)', 
+                    data: trainData, 
+                    borderColor: '#3b82f6', 
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)', 
+                    tension: 0.3, 
+                    pointRadius: 0, 
+                    borderWidth: 2,
+                    fill: false
+                },
+                { 
+                    label: '验证误差 (CV Error)', 
+                    data: valData, 
+                    borderColor: '#ef4444', 
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)', 
+                    tension: 0.3, 
+                    pointRadius: 0, 
+                    borderWidth: 2,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true, 
+            maintainAspectRatio: false, 
+            animation: false, 
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+                x: { 
+                    title: { display: true, text: '训练样本数量 (m)', color: '#64748b' }, 
+                    grid: { display: false } 
+                },
+                y: { 
+                    title: { display: true, text: '均方误差 (MSE)', color: '#64748b' }, 
+                    min: 0, max: 2.0,
+                    grid: { color: '#f1f5f9' }
+                }
+            },
+            plugins: { 
+                legend: { 
+                    position: 'top',
+                    labels: { usePointStyle: true, boxWidth: 8 }
+                }, 
+                tooltip: { 
+                    callbacks: { label: function(context) { return context.dataset.label + ': ' + context.raw.toFixed(3); } } 
+                } 
+            }
+        }
+    });
+}
+
+function updateDiagnosis(trainErr, testErr) {
+    const title = document.getElementById('statusTitle');
+    const msg = document.getElementById('statusMessage');
+    const icon = document.getElementById('statusIcon');
+    const iconBg = document.getElementById('statusIconBg');
+    const suggestion = document.getElementById('suggestionText');
+    const card = document.getElementById('diagnosisCard');
+
+    const isUnderfitting = (trainErr > 0.25) && (state.degree < 3);
+    const isOverfitting = (testErr > trainErr * 2.0) && (trainErr < 0.15) && (state.degree > 4);
+    
+    if (isUnderfitting) {
+        title.innerText = "高偏差 (欠拟合)"; title.className = "text-2xl font-bold text-orange-600 tracking-tight";
+        msg.innerText = "模型太简单，曲线“僵硬”，无法贴合数据。";
+        icon.innerText = "sentiment_dissatisfied"; iconBg.className = "w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center flex-shrink-0 text-orange-600";
+        card.className = "bg-white rounded-xl shadow-sm border-l-4 border-orange-400 p-5 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between mb-2";
+        suggestion.innerHTML = `1. <strong>增加多项式阶数</strong> (当前: ${state.degree})。<br>2. 减小正则化 Lambda。`;
+    } else if (isOverfitting) {
+        title.innerText = "高方差 (过拟合)"; title.className = "text-2xl font-bold text-red-600 tracking-tight";
+        msg.innerText = "模型太敏感，正在“背诵”噪声，泛化极差。";
+        icon.innerText = "warning"; iconBg.className = "w-14 h-14 rounded-2xl bg-red-100 flex items-center justify-center flex-shrink-0 text-red-600";
+        card.className = "bg-white rounded-xl shadow-sm border-l-4 border-red-500 p-5 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between mb-2";
+        suggestion.innerHTML = `1. <strong>增加正则化 (Lambda)</strong>。<br>2. 增加训练样本。<br>3. 降低复杂度。`;
+    } else {
+        title.innerText = "拟合良好 (Good Fit)"; title.className = "text-2xl font-bold text-green-600 tracking-tight";
+        msg.innerText = "模型在偏差和方差之间取得了平衡。";
+        icon.innerText = "check_circle"; iconBg.className = "w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center flex-shrink-0 text-green-600";
+        card.className = "bg-white rounded-xl shadow-sm border-l-4 border-green-500 p-5 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between mb-2";
+        suggestion.innerHTML = "保持当前参数。如果需要更低误差，尝试减少数据噪声。";
+    }
+}
+
+function updateAll() {
+    // 1. Train & Error
+    state.weights = trainModel(state.points, state.degree, state.lambda);
+    const trainErr = calculateMSE(state.points, state.weights);
+    const testErr = calculateMSE(state.validationSet, state.weights);
+    
+    // 2. Metrics
+    document.getElementById('trainErrorMetric').textContent = trainErr.toFixed(4);
+    document.getElementById('testErrorMetric').textContent = testErr.toFixed(4);
+    
+    // 3. Update Visuals
+    drawFunctionPlot();
+    updateLearningCurveData(); 
+    
+    // 4. Update Diagnosis
+    updateDiagnosis(trainErr, testErr);
+}
+
+function setScenario(type) {
+    if (type === 'underfit') { state.degree = 1; state.samples = 30; state.noise = 0.3; state.lambda = 0; } 
+    else if (type === 'overfit') { state.degree = 12; state.samples = 15; state.noise = 0.5; state.lambda = 0; } 
+    else if (type === 'optimal') { state.degree = 4; state.samples = 40; state.noise = 0.3; state.lambda = 0.05; } 
+    else if (type === 'high_bias_var') { state.degree = 9; state.samples = 10; state.noise = 0.4; state.lambda = 0; }
+
+    document.getElementById('degreeSlider').value = state.degree;
+    document.getElementById('samplesSlider').value = state.samples;
+    document.getElementById('noiseSlider').value = state.noise;
+    document.getElementById('lambdaSlider').value = state.lambda;
+    
+    document.getElementById('degreeVal').textContent = state.degree;
+    document.getElementById('samplesVal').textContent = state.samples;
+    document.getElementById('noiseVal').textContent = state.noise;
+    document.getElementById('lambdaVal').textContent = state.lambda;
+    generateData();
+}
+
+// Event Listeners
+document.getElementById('degreeSlider').addEventListener('input', (e) => { state.degree = parseInt(e.target.value); document.getElementById('degreeVal').textContent = state.degree; updateAll(); });
+document.getElementById('samplesSlider').addEventListener('input', (e) => { state.samples = parseInt(e.target.value); document.getElementById('samplesVal').textContent = state.samples; generateData(); });
+document.getElementById('noiseSlider').addEventListener('change', (e) => { state.noise = parseFloat(e.target.value); document.getElementById('noiseVal').textContent = state.noise; generateData(); });
+document.getElementById('lambdaSlider').addEventListener('input', (e) => { state.lambda = parseFloat(e.target.value); document.getElementById('lambdaVal').textContent = state.lambda; updateAll(); });
+window.addEventListener('resize', drawFunctionPlot);
+
+// Init
+setScenario('underfit');
+</script>
+
+</body></html>
